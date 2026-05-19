@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TAES — Tu aliada para emprender con sentido</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #4B1D66;
+  --purple2: #5E2480;
+  --magenta: #B1007A;
+  --orange: #FF8A00;
+  --orange2: #e07800;
+  --bg: #F7F3FB;
+  --card: #ffffff;
+  --border: #E4D9F0;
+  --text: #1C1028;
+  --muted: #7A6E8A;
+  --success: #1E9B6A;
+  --warn: #D97706;
+  --curve1: #7A3090;
+  --curve2: #5C1A3A;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCREEN SYSTEM ── */
+.screen { display:none; min-height:100vh; animation: fadeUp .3s ease; }
+.screen.active { display:flex; flex-direction:column; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── MOBILE SHELL (centrado desktop, full mobile) ── */
+.mobile-shell {
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg);
+}
+.screen > .mobile-shell {
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── PANTALLA BIENVENIDA ── */
+#s-welcome {
+  background: var(--purple);
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-wrap {
+  max-width: 420px;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 32px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* curvas decorativas SVG */
+.deco-curves {
+  position: absolute;
+  top: 0; right: 0;
+  width: 240px;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.welcome-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.logo-mark {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 4px;
+}
+
+.leaf-a {
+  width: 16px; height: 18px;
+  background: var(--magenta);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  border-radius: 2px;
+}
+
+.leaf-b {
+  width: 12px; height: 14px;
+  background: var(--orange);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  border-radius: 2px;
+  margin-top: 4px;
+}
+
+.logo-wordmark {
+  font-size: 52px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -3px;
+  line-height: 1;
+}
+
+.welcome-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.welcome-hero h1 {
+  font-size: 34px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.welcome-hero p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.welcome-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.welcome-tagline {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* ── BOTONES ── */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 20px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.btn-orange { background: var(--orange); color: #fff; }
+.btn-orange:hover { background: var(--orange2); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,138,0,0.35); }
+.btn-orange:active { transform: translateY(0); }
+
+.btn-ghost { background: rgba(255,255,255,0.12); color: #fff; border: 1.5px solid rgba(255,255,255,0.25); }
+.btn-ghost:hover { background: rgba(255,255,255,0.18); }
+
+.btn-purple { background: var(--purple); color: #fff; }
+.btn-purple:hover { background: var(--purple2); transform: translateY(-1px); }
+
+.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+
+.btn-sm { padding: 9px 16px; font-size: 12px; border-radius: 10px; }
+.btn-full { width: 100%; }
+
+/* ── PANTALLAS CON HEADER ── */
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.back-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: var(--purple);
+  flex-shrink: 0;
+}
+
+.screen-header-title { font-size: 16px; font-weight: 700; color: var(--purple); flex: 1; }
+.screen-header-sub { font-size: 11px; color: var(--muted); }
+
+/* ── PROGRESS BAR STEPS ── */
+.step-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 20px;
+}
+
+.step-fill { height: 100%; background: var(--orange); border-radius: 2px; transition: width .4s ease; }
+
+/* ── REGISTRO ── */
+.form-screen {
+  flex: 1;
+  min-height: 0;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.form-title { font-size: 22px; font-weight: 800; color: var(--purple); }
+.form-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--text); }
+
+.input {
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s;
+  appearance: none;
+}
+
+.input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(75,29,102,0.08); }
+
+.input-hint { font-size: 11px; color: var(--muted); }
+
+.select-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.pill {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.pill.selected { background: var(--purple); color: #fff; border-color: var(--purple); }
+.pill:hover:not(.selected) { border-color: var(--purple); color: var(--purple); }
+
+.form-footer {
+  padding: 16px 20px 24px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* ── DIAGNÓSTICO ── */
+.diag-question {
+  flex: 1;
+   min-height: 0; 
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.q-category {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.q-text { font-size: 22px; font-weight: 800; color: var(--purple); line-height: 1.2; }
+
+.answer-options { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+
+.answer-opt {
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
+}
+
+.answer-opt:hover { border-color: var(--orange); background: rgba(255,138,0,0.04); }
+.answer-opt.selected { border-color: var(--purple); background: rgba(75,29,102,0.06); color: var(--purple); font-weight: 700; }
+
+.opt-radio {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+
+.answer-opt.selected .opt-radio { border-color: var(--purple); background: var(--purple); }
+.answer-opt.selected .opt-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+
+.diag-counter { font-size: 12px; color: var(--muted); }
+
+/* ── RUTA RECOMENDADA ── */
+.ruta-result-screen {
+  flex: 1;
+  padding: 24px 20px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.ruta-card-big {
+  background: var(--purple);
+  border-radius: 20px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.ruta-card-big::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(177,0,122,0.25);
+}
+
+.ruta-card-big::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; right: 40px;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: rgba(255,138,0,0.2);
+}
+
+.ruta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,138,0,0.2);
+  color: var(--orange);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative; z-index: 1;
+}
+
+.ruta-name { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 10px; position: relative; z-index: 1; }
+.ruta-desc { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 16px; position: relative; z-index: 1; }
+
+.ruta-stats {
+  display: flex;
+  gap: 16px;
+  position: relative; z-index: 1;
+}
+
+.ruta-stat { text-align: center; }
+.ruta-stat .val { font-size: 20px; font-weight: 800; color: #fff; }
+.ruta-stat .lbl { font-size: 10px; color: rgba(255,255,255,0.55); }
+
+.acompanamiento {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.acomp-title { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+
+.acomp-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  background: var(--bg);
+}
+
+.acomp-icon { font-size: 18px; }
+.acomp-text { font-size: 13px; font-weight: 500; }
+
+/* ── APP PRINCIPAL ── */
+#s-app { background: var(--bg); }
+
+.app-topbar {
+  background: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.app-logo { font-size: 22px; font-weight: 900; color: var(--purple); letter-spacing: -1px; }
+
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+.app-section { padding: 20px; display: none; }
+.app-section.active { display: block; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 30;
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px 8px;
+  cursor: pointer;
+  gap: 3px;
+  transition: all .15s;
+}
+
+.nav-tab .ti { font-size: 20px; }
+.nav-tab .tl { font-size: 9px; font-weight: 600; color: var(--muted); }
+.nav-tab.active .tl { color: var(--purple); }
+.nav-tab.active .ti { filter: saturate(2); }
+
+/* ── DASHBOARD (inicio) ── */
+.dash-hero {
+  background: var(--purple);
+  padding: 24px 20px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; right: -20px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(177,0,122,0.2);
+  pointer-events: none;
+}
+
+.dash-greeting { font-size: 22px; font-weight: 800; color: #fff; }
+.dash-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; margin-bottom: 20px; }
+
+.ruta-mini {
+  background: rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 16px;
+  position: relative; z-index: 1;
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+}
+
+.rm-badge { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 700; margin-bottom: 4px; }
+.rm-name { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+.rm-module { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+
+.mini-progress { }
+.mp-bar { height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; margin-top: 5px; }
+.mp-fill { height: 100%; background: var(--orange); border-radius: 3px; }
+.mp-row { display: flex; justify-content: space-between; align-items: center; }
+.mp-label { font-size: 11px; color: rgba(255,255,255,0.6); }
+.mp-pct { font-size: 13px; font-weight: 800; color: var(--orange); }
+
+.dash-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+.alert-card {
+  background: rgba(255,138,0,0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-left: 3px solid var(--orange);
+}
+
+.alert-card .ac-icon { font-size: 16px; }
+.alert-card .ac-text { font-size: 12px; line-height: 1.4; }
+.alert-card .ac-text strong { color: var(--orange); }
+
+.section-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+.quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.quick-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.quick-card:hover { border-color: var(--purple); box-shadow: 0 2px 12px rgba(75,29,102,0.1); transform: translateY(-1px); }
+.quick-card .qc-icon { font-size: 24px; }
+.quick-card .qc-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.quick-card .qc-sub { font-size: 11px; color: var(--muted); }
+
+.logros-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.logros-row::-webkit-scrollbar { display: none; }
+
+.logro-chip {
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.logro-chip .lc-icon { font-size: 22px; }
+.logro-chip .lc-name { font-size: 11px; font-weight: 700; color: var(--text); }
+.logro-chip .lc-desc { font-size: 10px; color: var(--muted); }
+
+/* ── RUTAS ── */
+.ruta-list { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+
+.ruta-item {
+  background: #fff;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  padding: 18px;
+  transition: all .2s;
+}
+
+.ruta-item.active-ruta { border-color: var(--purple); }
+.ruta-item.locked { opacity: 0.6; }
+
+.ri-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.ri-name { font-size: 16px; font-weight: 800; color: var(--purple); }
+.ri-name.magenta { color: var(--magenta); }
+.ri-name.muted { color: var(--muted); }
+
+.ri-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-progreso { background: #E8F7F0; color: var(--success); }
+.badge-disponible { background: rgba(177,0,122,0.1); color: var(--magenta); }
+.badge-bloqueada { background: #F0F0F0; color: #999; }
+
+.ri-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+.ri-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+.ri-pct { font-weight: 800; color: var(--orange); }
+
+.ri-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+.ri-bar-fill { height: 100%; border-radius: 3px; }
+
+.ri-locked-msg { font-size: 11px; color: var(--muted); font-style: italic; }
+
+/* ── MÓDULO DE APRENDIZAJE ── */
+#s-modulo {
+  background: #fff;
+}
+
+.video-thumb {
+  background: var(--purple);
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 40%, rgba(177,0,122,0.4), transparent 60%);
+}
+
+.play-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+  font-size: 22px;
+  padding-left: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: transform .2s;
+}
+
+.play-btn:hover { transform: scale(1.05); }
+
+.video-duration {
+  position: absolute;
+  bottom: 12px; left: 14px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.modulo-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+.mod-cat { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--magenta); font-weight: 700; }
+.mod-title { font-size: 20px; font-weight: 800; color: var(--purple); }
+.mod-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+.pasos-card {
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.pasos-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
+
+.paso {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.paso-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.paso-text { font-size: 13px; line-height: 1.5; }
+
+.ejemplo-card {
+  background: rgba(255,138,0,0.08);
+  border-radius: 12px;
+  padding: 14px;
+  border-left: 3px solid var(--orange);
+  display: flex;
+  gap: 10px;
+}
+
+.ejercicio-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.ej-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+
+textarea.input {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  font-size: 13px;
+}
+
+/* ── MI NEGOCIO ── */
+.negocio-header {
+  background: var(--purple);
+  padding: 20px;
+  margin-bottom: 0;
+}
+
+.negocio-badge { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 700; margin-bottom: 4px; }
+.negocio-name { font-size: 20px; font-weight: 800; color: #fff; }
+.negocio-progress { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.negocio-pct { font-size: 22px; font-weight: 900; color: var(--orange); }
+
+.negocio-sections { padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+
+.neg-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.neg-item:hover { border-color: var(--purple); }
+.neg-item .ni-icon { font-size: 20px; }
+.neg-item .ni-info { flex: 1; }
+.neg-item .ni-label { font-size: 13px; font-weight: 600; }
+.neg-item .ni-val { font-size: 11px; color: var(--muted); }
+.neg-item .ni-status { font-size: 18px; }
+
+.neg-download {
+  margin: 0 20px 20px;
+}
+
+/* ── COMUNIDAD ── */
+.comunidad-header {
+  padding: 16px 20px 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.com-title { font-size: 18px; font-weight: 800; color: var(--purple); margin-bottom: 4px; }
+.com-sub { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 12px; }
+
+.com-tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.com-tabs::-webkit-scrollbar { display: none; }
+
+.com-tab {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 20px 20px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: 'Poppins', sans-serif;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+
+.com-tab.active { color: var(--purple); border-bottom-color: var(--purple); }
+
+.com-actions { display: flex; gap: 8px; padding: 12px 20px; background: #fff; }
+
+.com-posts { padding: 12px 20px; display: flex; flex-direction: column; gap: 10px; }
+
+.post-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 14px;
+  transition: box-shadow .2s;
+}
+
+.post-card:hover { box-shadow: 0 2px 12px rgba(75,29,102,0.08); }
+
+.post-header { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+.post-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.post-meta { flex: 1; }
+.post-name { font-size: 12px; font-weight: 700; }
+.post-time { font-size: 10px; color: var(--muted); }
+.post-ruta-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
+.tag-purple { background: rgba(75,29,102,0.1); color: var(--purple); }
+.tag-magenta { background: rgba(177,0,122,0.1); color: var(--magenta); }
+.tag-orange { background: rgba(255,138,0,0.1); color: #c06000; }
+.mentor-badge { background: var(--magenta); color: #fff; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+
+.post-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.post-body { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.post-actions-row { display: flex; gap: 14px; }
+.post-act { font-size: 12px; color: var(--muted); cursor: pointer; }
+
+/* ── MENTORÍA ── */
+.mentoria-intro {
+  background: var(--purple);
+  padding: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.mi-icon { font-size: 32px; }
+.mi-text .mit { font-size: 16px; font-weight: 700; color: #fff; }
+.mi-text .mis { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 2px; }
+
+.mentoras-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+
+.mentora-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: all .2s;
+}
+
+.mentora-card:hover { border-color: var(--purple); box-shadow: 0 2px 12px rgba(75,29,102,0.1); }
+
+.mentora-av {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+
+.mentora-info { flex: 1; }
+.mentora-name { font-size: 14px; font-weight: 700; }
+.mentora-esp { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.3; }
+
+/* ── CAPITAL SEMILLA ── */
+.capital-hero {
+  background: var(--purple);
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.capital-hero::before {
+  content: '';
+  position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255,138,0,0.2);
+}
+
+.ch-icon { font-size: 32px; margin-bottom: 8px; }
+.ch-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.ch-desc { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+.ch-estado { display: flex; gap: 16px; margin-top: 16px; }
+.ch-e-item .val { font-size: 14px; font-weight: 700; color: var(--orange); }
+.ch-e-item .lbl { font-size: 10px; color: rgba(255,255,255,0.5); }
+
+.proceso-section { padding: 16px 20px; }
+
+.proceso-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+
+.proceso-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.proceso-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 30px;
+  bottom: -8px;
+  width: 2px;
+  background: var(--border);
+}
+
+.proceso-step.done::before { background: var(--purple); }
+
+.ps-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  background: #fff;
+  position: relative; z-index: 1;
+}
+
+.proceso-step.done .ps-num { background: var(--purple); border-color: var(--purple); color: #fff; }
+.proceso-step.current .ps-num { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+.ps-info { padding-bottom: 20px; flex: 1; }
+.ps-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.ps-label.muted { color: var(--muted); font-weight: 500; }
+
+/* ── SESIONES ── */
+.sesiones-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+
+.sesion-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: all .2s;
+}
+
+.sesion-item:hover { border-color: var(--purple); }
+
+.si-date {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: center;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+
+.si-date .sm { font-size: 9px; text-transform: uppercase; color: var(--muted); font-weight: 700; letter-spacing: 1px; }
+.si-date .sd { font-size: 22px; font-weight: 900; color: var(--purple); line-height: 1; }
+
+.si-info { flex: 1; }
+.si-type { font-size: 10px; text-transform: uppercase; font-weight: 700; color: var(--magenta); margin-bottom: 3px; }
+.si-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.si-meta { font-size: 11px; color: var(--muted); }
+
+/* ── LOGROS ── */
+.logros-section { padding: 20px; }
+
+.logros-count {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.lc-num { font-size: 32px; font-weight: 900; color: var(--purple); }
+.lc-slash { font-size: 20px; color: var(--border); }
+.lc-total { font-size: 24px; font-weight: 700; color: var(--muted); }
+.lc-text { font-size: 12px; color: var(--muted); }
+
+.logros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.logro-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 12px;
+  text-align: center;
+  transition: all .2s;
+}
+
+.logro-card.unlocked { border-color: var(--purple); }
+.logro-card.locked { opacity: 0.5; }
+.logro-card .lc-icon { font-size: 28px; margin-bottom: 6px; }
+.logro-card .lc-n { font-size: 12px; font-weight: 700; }
+.logro-card .lc-d { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ── PERFIL ── */
+.perfil-header {
+  background: var(--purple);
+  padding: 28px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.perfil-av {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--magenta);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid rgba(255,255,255,0.3);
+}
+
+.perfil-name { font-size: 18px; font-weight: 800; color: #fff; }
+.perfil-loc { font-size: 12px; color: rgba(255,255,255,0.6); }
+.perfil-chips { display: flex; gap: 8px; margin-top: 4px; }
+
+.perfil-chip {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.perfil-edit-btn {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.perfil-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 16px 20px;
+}
+
+.pstat {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.pstat .ps-val { font-size: 22px; font-weight: 800; color: var(--purple); }
+.pstat .ps-lbl { font-size: 11px; color: var(--muted); }
+.pstat .ps-sub { font-size: 12px; font-weight: 700; color: var(--orange); }
+
+.perfil-data { padding: 0 20px 20px; }
+.pd-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+
+.pd-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.pd-row:last-child { border-bottom: none; }
+.pd-lbl { color: var(--muted); }
+.pd-val { font-weight: 600; }
+
+/* ── LOADING SCREEN ── */
+#s-loading {
+  background: var(--purple);
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loading-logo { font-size: 56px; font-weight: 900; color: #fff; letter-spacing: -3px; }
+.loading-dots { display: flex; gap: 8px; justify-content: center; }
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: bounce 1.2s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: .2s; background: var(--magenta); }
+.dot:nth-child(3) { animation-delay: .4s; background: rgba(255,255,255,0.5); }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.8); opacity: .5; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+/* desktop: mostrar como teléfono */
+@media (min-width: 500px) {
+  body { background: #2A1040; display: flex; align-items: flex-start; justify-content: center; padding: 24px 0; }
+  .mobile-shell { border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.4); min-height: calc(100vh - 48px); max-height: 850px; overflow: hidden; }
+  .screen { border-radius: 28px; overflow: hidden; }
+  .bottom-nav { border-radius: 0 0 28px 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOADING ── -->
+<div class="mobile-shell">
+<div class="screen active" id="s-loading">
+  <div class="loading-inner">
+    <img src="src/assets/logo2.png" style="width:180px; filter:brightness(0) invert(1)" alt="TAES">
+    <p style="color:rgba(255,255,255,0.5);font-size:13px">Tu aliada para emprender con sentido.</p>
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BIENVENIDA ── -->
+<div class="screen" id="s-welcome">
+  <div class="welcome-wrap">
+    <svg class="deco-curves" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M280 20 Q200 80 120 60 Q40 40 20 100" stroke="#7A3090" stroke-width="18" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <path d="M280 60 Q200 120 100 90 Q20 70 0 130" stroke="#B1007A" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M280 100 Q220 150 140 130 Q60 110 40 170" stroke="#9E5090" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.3"/>
+    </svg>
+
+    <div class="welcome-logo" style="display:flex; justify-content:center; align-items:center; margin-top:100px;"">
+      <img src="src/assets/logo2.png" 
+           style="width:180px; filter:brightness(0) invert(1);" 
+           alt="TAES">
+    </div>
+
+    <div class="welcome-hero">
+      <h1>Bienvenida a TAES</h1>
+      <p>Estamos aquí para acompañarte a emprender paso a paso, a tu ritmo.</p>
+    </div>
+
+    <div class="welcome-cta">
+      <p style="font-size:12px;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:4px">Elegí cómo querés ingresar</p>
+      <button class="btn btn-orange btn-full" onclick="go('s-registro')">✦ Entrar como emprendedora</button>
+      <button class="btn btn-ghost btn-full" >👤 Entrar como administrador</button>
+      <div class="welcome-tagline">Creemos ideas. Transformamos realidades.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── REDIRECCION ADMIN ── -->
+<div class="screen" id="s-admin-redirect">
+  <div class="welcome-wrap" style="background:var(--purple)">
+    <div class="welcome-logo">
+      <div class="logo-wordmark">taes</div>
+    </div>
+    <div class="welcome-hero" style="text-align:center;align-items:center">
+      <div style="font-size:48px;margin-bottom:16px">🌐</div>
+      <h1 style="font-size:24px">Portal de aliados</h1>
+      <p style="text-align:center">El portal para administradores y organizaciones aliadas es una plataforma web.</p>
+      <div style="background:rgba(255,255,255,0.1);border-radius:14px;padding:16px;margin-top:20px;width:100%">
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:6px">Ingresá desde tu computadora en:</div>
+        <div style="font-size:16px;font-weight:800;color:var(--orange)">app.taes.org/login</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost btn-full" onclick="go('s-welcome')">← Volver</button>
+  </div>
+</div>
+
+<!-- ── REGISTRO PASO 1 ── -->
+<div class="screen" id="s-registro">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-welcome')">←</button>
+      <div>
+        <div class="screen-header-title">Crear cuenta</div>
+        <div class="screen-header-sub">Paso 1 de 2 · No te preocupes, podés pausar</div>
+      </div>
+    </div>
+    <div class="step-bar"><div class="step-fill" style="width:50%"></div></div>
+
+    <div class="form-screen">
+      <div>
+        <div class="form-title">Empecemos a conocerte</div>
+        <div class="form-sub">Solo necesitamos algunos datos. No pedimos correo.</div>
+      </div>
+
+      <div class="field">
+        <label>¿Cómo te llamás?</label>
+        <input class="input" type="text" placeholder="Tu nombre" id="reg-nombre" value="María Quispe">
+      </div>
+
+      <div class="field">
+        <label>Número de teléfono</label>
+        <input class="input" type="tel" placeholder="7XXXXXXX" id="reg-tel" value="70123456">
+        <span class="input-hint">Lo usamos para recordatorios y soporte</span>
+      </div>
+
+      <div class="field">
+        <label>Edad</label>
+        <select class="input" id="reg-edad">
+          <option>18-24</option>
+          <option selected>25-34</option>
+          <option>35-44</option>
+          <option>45-54</option>
+          <option>55+</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-orange btn-full" onclick="go('s-diagnostico')">Continuar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── REGISTRO PASO 2 ── -->
+<div class="screen" id="s-registro2">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-registro')">←</button>
+      <div>
+        <div class="screen-header-title">Crear cuenta</div>
+        <div class="screen-header-sub">Paso 2 de 2 · Ya casi terminamos</div>
+      </div>
+    </div>
+    <div class="step-bar"><div class="step-fill" style="width:100%"></div></div>
+
+    <div class="form-screen">
+      <div>
+        <div class="form-title">Tu emprendimiento</div>
+        <div class="form-sub">Contanos un poco sobre lo que hacés o querés hacer.</div>
+      </div>
+
+      <div class="field">
+        <label>¿En qué rubro trabajás o querés emprender?</label>
+        <div class="select-pills">
+          <div class="pill selected" onclick="togglePill(this)">🍞 Alimentos y bebidas</div>
+          <div class="pill" onclick="togglePill(this)">🧵 Textiles</div>
+          <div class="pill" onclick="togglePill(this)">🏺 Artesanía</div>
+          <div class="pill" onclick="togglePill(this)">💅 Belleza</div>
+          <div class="pill" onclick="togglePill(this)">🛒 Comercio</div>
+          <div class="pill" onclick="togglePill(this)">🌾 Agropecuario</div>
+          <div class="pill" onclick="togglePill(this)">💼 Servicios</div>
+          <div class="pill" onclick="togglePill(this)">📱 Tecnología</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿Ya tenés un nombre para tu emprendimiento?</label>
+        <input class="input" type="text" placeholder="Opcional" id="reg-negocio" value="Pan casero Sara Pacha">
+      </div>
+
+      <div class="field">
+        <label>Creá tu PIN de acceso (4 dígitos)</label>
+        <input class="input" type="password" placeholder="····" maxlength="4" id="reg-pin" style="letter-spacing:8px;text-align:center;font-size:20px">
+        <span class="input-hint">En vez de contraseña, usamos un PIN fácil de recordar</span>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-orange btn-full" onclick="go('s-diagnostico')">Siguiente → Diagnóstico</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIAGNÓSTICO ── -->
+<div class="screen" id="s-diagnostico">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-registro')">←</button>
+      <div>
+        <div class="screen-header-title">Queremos conocerte</div>
+        <div class="screen-header-sub" id="diag-counter-header">Pregunta 1 de 5</div>
+      </div>
+    </div>
+    <div class="step-bar"><div class="step-fill" id="diag-bar" style="width:20%"></div></div>
+
+    <div class="diag-question">
+      <div class="q-category" id="diag-cat">TU MOMENTO</div>
+      <div class="q-text" id="diag-q">¿Ya vendés algún producto o servicio?</div>
+
+      <div class="answer-options" id="diag-opts">
+        <button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> Sí, ya vendo regularmente</button>
+        <button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> Sí, pero muy poco todavía</button>
+        <button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> No, tengo la idea pero no he empezado</button>
+        <button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> Aún no tengo claro qué quiero hacer</button>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-orange btn-full" id="diag-next-btn" onclick="nextDiag()">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── RUTA RECOMENDADA ── -->
+<div class="screen" id="s-ruta-resultado">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-diagnostico')">←</button>
+      <div>
+        <div class="screen-header-title">Tu ruta recomendada</div>
+      </div>
+    </div>
+
+    <div class="ruta-result-screen" >
+      <div class="ruta-card-big" id="res-card">
+        <div class="ruta-badge">✦ RECOMENDADA PARA TI</div>
+        <div class="ruta-name"  id="res-nombre">Quiero Emprender</div>
+        <div class="ruta-desc" id="res-desc">Por lo que nos contaste, te ayudaremos a ordenar tu idea, entender a quién querés venderle y dar tus primeros pasos con más seguridad.</div>
+        <div class="ruta-stats">
+          <div class="ruta-stat"><div class="val" id="res-modulos">8</div><div class="lbl">Módulos</div></div>
+          <div class="ruta-stat"><div class="val" id="res-semanas">~4 sem</div><div class="lbl">Duración</div></div>
+          <div class="ruta-stat"><div class="val" id="res-minutos">10 min</div><div class="lbl">Por día</div></div>
+        </div>
+      </div>
+
+      <div class="acompanamiento">
+        <div class="acomp-title">Te acompañaremos con</div>
+        <div class="acomp-item"><div class="acomp-icon">▶️</div><div class="acomp-text">Microvideos de 2-3 minutos</div></div>
+        <div class="acomp-item"><div class="acomp-icon">📄</div><div class="acomp-text">Plantillas descargables</div></div>
+        <div class="acomp-item"><div class="acomp-icon">👤</div><div class="acomp-text">Mentoras disponibles cuando lo necesités</div></div>
+        <div class="acomp-item"><div class="acomp-icon">💬</div><div class="acomp-text">Comunidad de emprendedoras</div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-orange btn-full" onclick="go('s-app'); setTab('tab-inicio')">Empezar esta ruta →</button>
+        <button class="btn btn-outline btn-full" onclick="go('s-app'); setTab('tab-rutas')">Ver otras rutas</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── APP PRINCIPAL ── -->
+<div class="screen" id="s-app">
+  <div class="mobile-shell" style="max-width:100%;margin:0;position:relative">
+
+    <div class="app-topbar">
+      <span style="font-size:18px;color:var(--muted);cursor:pointer">☰</span>
+      <span class="app-logo">taes</span>
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--magenta);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;cursor:pointer" onclick="setTab('tab-perfil')">MQ</div>
+    </div>
+
+    <div class="app-content">
+
+      <!-- INICIO -->
+      <div class="app-section active" id="tab-inicio">
+        <div class="dash-hero">
+          <div class="dash-greeting">Hola, María.</div>
+          <div class="dash-sub">Continuemos tu camino emprendedor.</div>
+          <div class="ruta-mini" onclick="go('s-modulo')">
+            <div class="rm-badge">Mi ruta actual</div>
+            <div class="rm-name">Quiero Emprender</div>
+            <div class="rm-module">Módulo 3 de 8 · Definí tu cliente ideal</div>
+            <div class="mini-progress">
+              <div class="mp-row">
+                <span class="mp-label">Progreso</span>
+                <span class="mp-pct">35%</span>
+              </div>
+              <div class="mp-bar"><div class="mp-fill" style="width:35%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-body">
+          <button class="btn btn-orange btn-full" onclick="go('s-modulo')">Continuar mi ruta →</button>
+
+          <div class="alert-card">
+            <div class="ac-icon">⏰</div>
+            <div class="ac-text"><strong>Hoy podés avanzar 10 minutitos.</strong><br>Tu progreso sigue guardado.</div>
+          </div>
+
+          <div>
+            <div class="section-title">Explorá</div>
+            <div class="quick-grid">
+              <div class="quick-card" onclick="setTab('tab-negocio')">
+                <div class="qc-icon">🏪</div>
+                <div class="qc-name">Mi negocio</div>
+                <div class="qc-sub">Tu cuaderno digital</div>
+              </div>
+              <div class="quick-card" onclick="setTab('tab-comunidad')">
+                <div class="qc-icon">💬</div>
+                <div class="qc-name">Comunidad</div>
+                <div class="qc-sub">No estás sola</div>
+              </div>
+              <div class="quick-card" onclick="setTab('tab-mentoria')">
+                <div class="qc-icon">👤</div>
+                <div class="qc-name">Mentoría</div>
+                <div class="qc-sub">Pedí ayuda</div>
+              </div>
+              <div class="quick-card" onclick="setTab('tab-capital')">
+                <div class="qc-icon">🌱</div>
+                <div class="qc-name">Capital semilla</div>
+                <div class="qc-sub">Postulá cuando estés lista</div>
+              </div>
+            </div>
+          </div>
+<!--
+          <div>
+            <div class="section-title">Mis logros · 3 insignias desbloqueadas</div>
+            <div class="logros-row">
+              <div class="logro-chip" style="border-color:var(--purple)">
+                <div class="lc-icon">🚀</div>
+                <div><div class="lc-name">Primer paso</div><div class="lc-desc">Primer módulo completado</div></div>
+              </div>
+              <div class="logro-chip" style="border-color:var(--magenta)">
+                <div class="lc-icon">💡</div>
+                <div><div class="lc-name">Idea con dueña</div><div class="lc-desc">Definiste tu producto</div></div>
+              </div>
+              <div class="logro-chip" style="border-color:var(--orange)">
+                <div class="lc-icon">💰</div>
+                <div><div class="lc-name">Cuenta clara</div><div class="lc-desc">Aprendiste costos</div></div>
+              </div>
+              <div class="logro-chip" style="opacity:0.4">
+                <div class="lc-icon">🔒</div>
+                <div><div class="lc-name">Ruta a la mitad</div><div class="lc-desc">Completá 50%</div></div>
+              </div>
+            </div>
+          </div>-->
+        </div>
+      </div>
+
+      <!-- MIS RUTAS -->
+      <div class="app-section" id="tab-rutas">
+        <div style="padding:16px 20px 0">
+          <div class="form-title" style="font-size:18px">Mis rutas</div>
+          <div class="form-sub">Aprendé a tu ritmo, con acompañamiento real. Podés explorar las tres.</div>
+        </div>
+        <div class="ruta-list">
+          <div class="ruta-item active-ruta">
+            <div class="ri-header">
+              <div class="ri-name">Quiero Emprender</div>
+              <span class="ri-badge badge-progreso">En progreso</span>
+            </div>
+            <div class="ri-desc">Ordená tu idea y dá tus primeros pasos con más seguridad.</div>
+            <div class="ri-meta"><span>8 módulos</span><span class="ri-pct">35%</span></div>
+            <div class="ri-bar"><div class="ri-bar-fill" style="width:35%;background:var(--orange)"></div></div>
+            <button class="btn btn-orange btn-full btn-sm" onclick="go('s-modulo')">Continuar →</button>
+          </div>
+
+          <div class="ruta-item">
+            <div class="ri-header">
+              <div class="ri-name magenta">Ya Tengo un Negocio</div>
+              <span class="ri-badge badge-disponible">Disponible</span>
+            </div>
+            <div class="ri-desc">Mejorá tu actividad actual con orden, costos y canales de venta.</div>
+            <div class="ri-meta"><span>10 módulos</span><span class="ri-pct" style="color:var(--muted)">0%</span></div>
+            <div class="ri-bar"><div class="ri-bar-fill" style="width:0%;background:var(--magenta)"></div></div>
+            <button class="btn btn-outline btn-full btn-sm">Explorar ruta</button>
+          </div>
+
+          <div class="ruta-item locked">
+            <div class="ri-header">
+              <div class="ri-name muted">Quiero Crecer</div>
+              <span class="ri-badge badge-bloqueada">🔒 Bloqueada</span>
+            </div>
+            <div class="ri-desc">Prepará tu negocio para nuevas oportunidades y mercados.</div>
+            <div class="ri-meta"><span>12 módulos</span><span>0%</span></div>
+            <div class="ri-bar"></div>
+            <div class="ri-locked-msg">Se desbloquea al avanzar en tu ruta actual.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MI NEGOCIO -->
+      <div class="app-section" id="tab-negocio">
+        <div class="negocio-header">
+          <div class="negocio-badge">Tu cuaderno digital</div>
+          <div class="negocio-name">Pan casero "Sara Pacha"</div>
+          <div class="negocio-progress">
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5)">5 de 7 secciones completas</div>
+              <div class="mp-bar" style="width:180px;margin-top:4px"><div class="mp-fill" style="width:71%"></div></div>
+            </div>
+            <div class="negocio-pct">71%</div>
+          </div>
+        </div>
+
+        <div class="negocio-sections">
+          <div class="neg-item">
+            <div class="ni-icon">✦</div>
+            <div class="ni-info">
+              <div class="ni-label">Mi idea</div>
+              <div class="ni-val">Pan casero artesanal con cereales andinos</div>
+            </div>
+            <div class="ni-status">✅</div>
+          </div>
+          <div class="neg-item">
+            <div class="ni-icon">🛍️</div>
+            <div class="ni-info">
+              <div class="ni-label">Mi producto</div>
+              <div class="ni-val">3 productos · 2 variantes</div>
+            </div>
+            <div class="ni-status">✅</div>
+          </div>
+          <div class="neg-item">
+            <div class="ni-icon">👥</div>
+            <div class="ni-info">
+              <div class="ni-label">Mi clienta ideal</div>
+              <div class="ni-val">Rosa, 38, mamá del barrio</div>
+            </div>
+            <div class="ni-status">✅</div>
+          </div>
+          <div class="neg-item" style="border-color:var(--orange)">
+            <div class="ni-icon">📊</div>
+            <div class="ni-info">
+              <div class="ni-label">Mis costos</div>
+              <div class="ni-val" style="color:var(--orange)">Falta completar 2 ítems</div>
+            </div>
+            <div class="ni-status">→</div>
+          </div>
+          <div class="neg-item">
+            <div class="ni-icon">💲</div>
+            <div class="ni-info">
+              <div class="ni-label">Mi precio</div>
+              <div class="ni-val" style="color:var(--muted)">Pendiente</div>
+            </div>
+            <div class="ni-status">→</div>
+          </div>
+          <div class="neg-item">
+            <div class="ni-icon">📣</div>
+            <div class="ni-info">
+              <div class="ni-label">Mis canales de venta</div>
+              <div class="ni-val">WhatsApp · Feria del barrio</div>
+            </div>
+            <div class="ni-status">✅</div>
+          </div>
+          <div class="neg-item">
+            <div class="ni-icon">🗺️</div>
+            <div class="ni-info">
+              <div class="ni-label">Mi mapa de negocio</div>
+              <div class="ni-val">Resumen en una página</div>
+            </div>
+            <div class="ni-status">→</div>
+          </div>
+        </div>
+        <div class="neg-download">
+          <button class="btn btn-purple btn-full">⬇ Descargar resumen de mi negocio</button>
+        </div>
+      </div>
+
+      <!-- COMUNIDAD -->
+      <div class="app-section" id="tab-comunidad">
+        <div class="comunidad-header">
+          <div class="com-title">Comunidad</div>
+          <div class="com-sub">"Compartí tus dudas, avances y aprendizajes. No estás sola en este camino."</div>
+          <div class="com-tabs">
+            <button class="com-tab active">Todas</button>
+            <button class="com-tab">Quiero Emprender</button>
+            <button class="com-tab">Ya Tengo Negocio</button>
+            <button class="com-tab">Quiero Crecer</button>
+          </div>
+        </div>
+        <div class="com-actions">
+          <button class="btn btn-orange btn-sm" style="flex:1;font-size:12px">+ Publicar duda</button>
+          <button class="btn btn-outline btn-sm" style="flex:1;font-size:12px">+ Compartir avance</button>
+        </div>
+        <div class="com-posts">
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background:var(--magenta)">Li</div>
+              <div class="post-meta">
+                <div class="post-name">Lic. Carla <span class="mentor-badge">MENTORA</span></div>
+                <div class="post-time">Hace 1 h</div>
+              </div>
+              <span class="post-ruta-tag tag-purple">Quiero Emprender</span>
+            </div>
+            <div class="post-title">Cómo nombrar tu emprendimiento ✨</div>
+            <div class="post-body">Hoy comparto 3 ejercicios cortos para encontrar un nombre que conecte con tu clienta ideal. Un nombre bien pensado ayuda a vender más desde el día uno…</div>
+            <div class="post-actions-row"><span class="post-act">❤️ 24</span><span class="post-act">💬 8 respuestas</span></div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background:var(--orange)">Ro</div>
+              <div class="post-meta">
+                <div class="post-name">Roxana C.</div>
+                <div class="post-time">Hace 3 h</div>
+              </div>
+              <span class="post-ruta-tag tag-magenta">Ya Tengo Negocio</span>
+            </div>
+            <div class="post-title">Mi primer pedido por WhatsApp 🎉</div>
+            <div class="post-body">Después de aplicar el módulo de canales, hice mi primera venta sin caminar al mercado. ¡Gracias TAES! Si alguien tiene dudas de cómo empezar en WhatsApp, con gusto cuento mi experiencia.</div>
+            <div class="post-actions-row"><span class="post-act">❤️ 56</span><span class="post-act">💬 14 respuestas</span></div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background:var(--purple)">Ma</div>
+              <div class="post-meta">
+                <div class="post-name">Marta L.</div>
+                <div class="post-time">Hace 6 h</div>
+              </div>
+              <span class="post-ruta-tag tag-orange">Quiero Crecer</span>
+            </div>
+            <div class="post-title">¿Alguna postuló a capital semilla este año?</div>
+            <div class="post-body">Tengo dudas sobre los requisitos de la sección de mentora revisora. ¿Alguien me cuenta su experiencia para saber qué esperar?</div>
+            <div class="post-actions-row"><span class="post-act">❤️ 12</span><span class="post-act">💬 22 respuestas</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENTORÍA -->
+      <div class="app-section" id="tab-mentoria">
+        <div class="mentoria-intro">
+          <div class="mi-icon">👤</div>
+          <div class="mi-text">
+            <div class="mit">Mentoría 1 a 1 disponible</div>
+            <div class="mis">Una mentora se conecta con vos a tu ritmo.</div>
+          </div>
+        </div>
+
+        <div style="padding:16px 20px 8px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="section-title">Mentoras disponibles</div>
+            <span style="font-size:12px;color:var(--purple);cursor:pointer;font-weight:600">Ver todas</span>
+          </div>
+        </div>
+
+        <div class="mentoras-list">
+          <div class="mentora-card">
+            <div class="mentora-av" style="background:var(--purple)">AG</div>
+            <div class="mentora-info">
+              <div class="mentora-name">Lic. Ana González</div>
+              <div class="mentora-esp">Costos y finanzas para emprendimientos pequeños</div>
+              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+            </div>
+          </div>
+          <div class="mentora-card">
+            <div class="mentora-av" style="background:var(--magenta)">SM</div>
+            <div class="mentora-info">
+              <div class="mentora-name">Lic. Sofía Mamani</div>
+              <div class="mentora-esp">Marketing digital para WhatsApp y redes sociales</div>
+              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+            </div>
+          </div>
+          <div class="mentora-card">
+            <div class="mentora-av" style="background:var(--orange)">PL</div>
+            <div class="mentora-info">
+              <div class="mentora-name">Ing. Patricia López</div>
+              <div class="mentora-esp">Formalización y gestión productiva</div>
+              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+            </div>
+          </div>
+          <div class="mentora-card">
+            <div class="mentora-av" style="background:var(--success)">VT</div>
+            <div class="mentora-info">
+              <div class="mentora-name">Lic. Verónica Tito</div>
+              <div class="mentora-esp">Acompañamiento emocional para emprender</div>
+              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:0 20px 8px">
+          <div class="section-title">Próximas sesiones</div>
+        </div>
+        <div class="sesiones-list" style="padding-top:0">
+          <div class="sesion-item">
+            <div class="si-date"><div class="sm">MAY</div><div class="sd">22</div></div>
+            <div class="si-info">
+              <div class="si-type">Taller grupal</div>
+              <div class="si-title">Cómo poner precio justo a tus productos</div>
+              <div class="si-meta">🖥 Zoom · 12 cupos · Por: TAES + Fund. Iguales</div>
+            </div>
+            <button class="btn btn-orange btn-sm" style="flex-shrink:0">Inscribirme</button>
+          </div>
+          <div class="sesion-item">
+            <div class="si-date"><div class="sm">MAY</div><div class="sd">28</div></div>
+            <div class="si-info">
+              <div class="si-type" style="color:var(--orange)">Capacitación</div>
+              <div class="si-title">Prepará tu postulación a capital semilla</div>
+              <div class="si-meta">🖥 Zoom · 30 cupos · Por: TAES</div>
+            </div>
+            <button class="btn btn-orange btn-sm" style="flex-shrink:0">Inscribirme</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPITAL SEMILLA -->
+      <div class="app-section" id="tab-capital">
+        <div class="capital-hero">
+          <div class="ch-icon">🌱</div>
+          <div class="ch-title">Tu idea puede crecer con acompañamiento</div>
+          <div class="ch-desc">Cuando tu emprendimiento esté listo, podés postular a oportunidades de apoyo, financiamiento o donaciones productivas. Te acompañaremos paso a paso.</div>
+          <div class="ch-estado">
+            <div class="ch-e-item"><div class="val">En preparación</div><div class="lbl">ESTADO</div></div>
+            <div class="ch-e-item"><div class="val">40%</div><div class="lbl">AVANCE</div></div>
+          </div>
+        </div>
+
+        <div class="proceso-section">
+          <div class="proceso-title">Tu proceso</div>
+
+          <div class="proceso-step done">
+            <div class="ps-num">✓</div>
+            <div class="ps-info">
+              <div class="ps-label">Preparar mi emprendimiento</div>
+            </div>
+          </div>
+          <div class="proceso-step done">
+            <div class="ps-num">✓</div>
+            <div class="ps-info">
+              <div class="ps-label">Revisar requisitos</div>
+            </div>
+          </div>
+          <div class="proceso-step current">
+            <div class="ps-num">3</div>
+            <div class="ps-info">
+              <div class="ps-label">Completar postulación</div>
+              <button class="btn btn-orange btn-sm" style="margin-top:8px">Continuar este paso →</button>
+            </div>
+          </div>
+          <div class="proceso-step">
+            <div class="ps-num">4</div>
+            <div class="ps-info">
+              <div class="ps-label muted">Solicitar revisión de mentora</div>
+            </div>
+          </div>
+          <div class="proceso-step">
+            <div class="ps-num">5</div>
+            <div class="ps-info">
+              <div class="ps-label muted">Enviar postulación</div>
+            </div>
+          </div>
+          <div class="proceso-step">
+            <div class="ps-num">6</div>
+            <div class="ps-info">
+              <div class="ps-label muted">Ver estado y feedback</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin:0 20px 20px;background:rgba(75,29,102,0.06);border-radius:12px;padding:14px;border-left:3px solid var(--purple)">
+          <div style="font-size:12px;line-height:1.6;color:var(--muted)">
+            <strong style="color:var(--purple)">No es dinero fácil.</strong> Cada postulación es revisada y acompañada. El proceso es serio porque queremos que tu emprendimiento realmente crezca con este apoyo.
+          </div>
+        </div>
+      </div>
+
+      <!-- PERFIL -->
+      <div class="app-section" id="tab-perfil">
+        <div class="perfil-header">
+          <button class="perfil-edit-btn">Editar perfil</button>
+          <div class="perfil-av">MQ</div>
+          <div class="perfil-name">María Quispe</div>
+          <!--<div class="perfil-loc">La Paz · Achocalla · Alimentos y bebidas</div>-->
+          <div class="perfil-chips">
+            <span class="perfil-chip">Quiero Emprender</span>
+            <span class="perfil-chip">Activa</span>
+          </div>
+        </div>
+
+        <div class="perfil-stats">
+          <div class="pstat">
+            <div class="ps-val" style="color:var(--orange)">35%</div>
+            <div class="ps-lbl">Ruta activa</div>
+            <div class="ps-sub">Quiero Emprender</div>
+          </div>
+          <div class="pstat">
+            <div class="ps-val">3/12</div>
+            <div class="ps-lbl">Insignias</div>
+            <div class="ps-sub" style="color:var(--magenta)">desbloqueadas</div>
+          </div>
+          <div class="pstat">
+            <div class="ps-val">14</div>
+            <div class="ps-lbl">Ejercicios</div>
+            <div class="ps-sub" style="color:var(--success)">completados</div>
+          </div>
+          <div class="pstat">
+            <div class="ps-val">5</div>
+            <div class="ps-lbl">Sesiones</div>
+            <div class="ps-sub" style="color:var(--purple)">asistidas</div>
+          </div>
+        </div>
+
+        <div class="perfil-data">
+          <div class="pd-title">Mis datos</div>
+          <div class="pd-row"><span class="pd-lbl">Teléfono</span><span class="pd-val">+591 70123456</span></div>
+          <div class="pd-row"><span class="pd-lbl">Edad</span><span class="pd-val">25-34 años</span></div>
+          <!--<div class="pd-row"><span class="pd-lbl">Rubro</span><span class="pd-val">Alimentos y bebidas</span></div>
+          <div class="pd-row"><span class="pd-lbl">Municipio</span><span class="pd-val">Achocalla, La Paz</span></div>-->
+          <div class="pd-row"><span class="pd-lbl">Ruta recomendada</span><span class="pd-val" style="color:var(--purple)">Quiero Emprender</span></div>
+          <div class="pd-row"><span class="pd-lbl">Inscrita desde</span><span class="pd-val">12 Mar 2026</span></div>
+        </div>
+
+        <!-- logros -->
+        <div class="logros-section" style="padding-top:0">
+          <div style="font-size:14px;font-weight:700;margin-bottom:12px">Mis logros e insignias</div>
+          <div class="logros-count">
+            <span class="lc-num">3</span><span class="lc-slash">/</span><span class="lc-total">12</span>
+            <div class="lc-text">Cada paso cuenta.<br>Estamos orgullosas.</div>
+          </div>
+          <div class="logros-grid">
+            <div class="logro-card unlocked"><div class="lc-icon">🚀</div><div class="lc-n">Primer paso emprendedor</div><div class="lc-d">Completaste tu primer módulo</div></div>
+            <div class="logro-card unlocked"><div class="lc-icon">💡</div><div class="lc-n">Idea con dueña</div><div class="lc-d">Definiste tu producto y clienta</div></div>
+            <div class="logro-card unlocked"><div class="lc-icon">💰</div><div class="lc-n">Cuenta clara</div><div class="lc-d">Aprendiste a calcular costos</div></div>
+            <div class="logro-card locked"><div class="lc-icon">🏆</div><div class="lc-n">Ruta a la mitad</div><div class="lc-d">Completá 50% de tu ruta</div></div>
+            <div class="logro-card locked"><div class="lc-icon">🗣️</div><div class="lc-n">Voz en comunidad</div><div class="lc-d">Publicá tu primer avance</div></div>
+            <div class="logro-card locked"><div class="lc-icon">🌱</div><div class="lc-n">Lista para postular</div><div class="lc-d">Completá tu carpeta semilla</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /app-content -->
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <div class="nav-tab active" id="tab-inicio-nav" onclick="setTab('tab-inicio')">
+        <span class="ti">🏠</span><span class="tl">Inicio</span>
+      </div>
+      <div class="nav-tab" id="tab-rutas-nav" onclick="setTab('tab-rutas')">
+        <span class="ti">🗺️</span><span class="tl">Mis rutas</span>
+      </div>
+      <div class="nav-tab" id="tab-negocio-nav" onclick="setTab('tab-negocio')">
+        <span class="ti">🏪</span><span class="tl">Mi negocio</span>
+      </div>
+      <div class="nav-tab" id="tab-comunidad-nav" onclick="setTab('tab-comunidad')">
+        <span class="ti">💬</span><span class="tl">Comunidad</span>
+      </div>
+      <div class="nav-tab" id="tab-perfil-nav" onclick="setTab('tab-perfil')">
+        <span class="ti">👤</span><span class="tl">Perfil</span>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /s-app -->
+
+<!-- ── MÓDULO DE APRENDIZAJE ── -->
+<div class="screen" id="s-modulo">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-app')">←</button>
+      <div>
+        <div class="screen-header-title">Módulo 3</div>
+        <div class="screen-header-sub">Quiero Emprender · 8 min</div>
+      </div>
+    </div>
+
+    <div style="overflow-y:auto;padding-bottom:24px">
+      <div class="video-thumb">
+        <div class="play-btn">▶</div>
+        <div class="video-duration">2:34 · video corto</div>
+      </div>
+
+      <div class="modulo-body">
+        <div>
+          <div class="mod-cat">Módulo 3</div>
+          <div class="mod-title">Definí a tu cliente ideal</div>
+          <div class="mod-desc">Conocer a quién le servís te ayuda a comunicar mejor, vender más y elegir tus canales con seguridad.</div>
+        </div>
+
+        <div class="pasos-card">
+          <div class="pasos-title">En pocas palabras</div>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-text">Pensá en tres personas reales a las que les servís hoy.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-text">Anotá qué necesitan, qué les preocupa y qué les hace feliz.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-text">Elegí una y escribí su nombre — esa es tu clienta principal.</div></div>
+        </div>
+
+        <div class="ejemplo-card">
+          <div style="font-size:18px">💡</div>
+          <div style="font-size:12px;line-height:1.5"><strong style="color:var(--orange)">Ejemplo:</strong> Ana hace pan casero. Su clienta es Rosa, 38, mamá del barrio que valora lo natural y compra los domingos.</div>
+        </div>
+
+        <div class="ejercicio-card">
+          <div class="ej-title">Tu ejercicio</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Escribí el nombre de tu producto o servicio y pensá en 3 personas a las que les podría servir.</div>
+          <textarea class="input" placeholder="Empezá a escribir aquí…"></textarea>
+        </div>
+
+        <button class="btn btn-orange btn-full">Completar módulo y seguir →</button>
+        <button class="btn btn-outline btn-full btn-sm">Guardar borrador</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /mobile-shell -->
+
+<script>
+// ── NAVEGACIÓN ──
+function go(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── TABS APP ──
+function setTab(tabId) {
+  document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  const nav = document.getElementById(tabId + '-nav');
+  if (nav) nav.classList.add('active');
+  if (!document.getElementById('s-app').classList.contains('active')) {
+    go('s-app');
+    document.getElementById(tabId).classList.add('active');
+    if (nav) nav.classList.add('active');
+  }
+}
+
+// ── PILLS ──
+function togglePill(el) {
+  el.classList.toggle('selected');
+}
+
+// ── DIAGNÓSTICO ──
+const preguntas = [
+  { 
+    cat: 'TU MOMENTO', 
+    q: '¿Ya vendés algún producto o servicio?', 
+    opts: ['Sí, ya vendo regularmente', 'Sí, pero muy poco todavía', 'No, tengo la idea pero no he empezado', 'Aún no tengo claro qué quiero hacer'],
+    pesos: [3, 2, 0, 0]  // 3=Quiero Crecer, 2=Ya Tengo Negocio, 0=Quiero Emprender
+  },
+  { 
+    cat: 'TU IDEA', 
+    q: '¿Tenés claro qué vas a vender?', 
+    opts: ['Sí, muy claro y ya vendo bien', 'Sí, pero quiero mejorar', 'Más o menos, tengo algunas ideas', 'Todavía no lo sé'],
+    pesos: [3, 2, 1, 0]
+  },
+  { 
+    cat: 'TUS CLIENTES', 
+    q: '¿Sabés a quién le querés vender?', 
+    opts: ['Sí, tengo clientas fijas', 'Tengo una idea general', 'No lo he pensado mucho', 'Quiero venderle a todos'] ,
+    pesos: [3, 2, 0, 0]
+  },
+  { 
+    cat: 'TU NEGOCIO', 
+    q: '¿Manejás tus costos y precios?', 
+    opts: ['Sí, llevo mis cuentas ordenadas', 'A veces, pero me cuesta', 'Casi nunca', 'No sé cómo hacerlo'],
+    pesos: [3, 2, 1, 0]
+  },
+  { 
+    cat: 'TU META', 
+    q: '¿Qué querés lograr con TAES?', 
+    opts: ['Expandirme o entrar a nuevos mercados', 'Ordenar y mejorar lo que ya tengo', 'Aprender a emprender desde cero', 'Entender si mi idea es viable'],
+    pesos: [3, 2, 0, 0]
+  },
+];
+
+let diagStep = 0;
+let diagPuntaje = 0;
+
+const rutas = {
+  alta: {
+    nombre: 'Quiero Crecer',
+    desc: 'Ya tenés experiencia vendiendo. Te ayudaremos a expandirte, entrar a nuevos mercados y prepararte para nuevas oportunidades.',
+    modulos: 12, semanas: '~6 sem', minutos: '15 min',
+    color: '#FF8A00'
+  },
+  media: {
+    nombre: 'Ya Tengo un Negocio',
+    desc: 'Ya empezaste pero querés mejorar. Te ayudaremos a ordenar costos, precios y canales de venta con más seguridad.',
+    modulos: 10, semanas: '~5 sem', minutos: '10 min',
+    color: '#B1007A'
+  },
+  baja: {
+    nombre: 'Quiero Emprender',
+    desc: 'Por lo que nos contaste, te ayudaremos a ordenar tu idea, entender a quién querés venderle y dar tus primeros pasos con más seguridad.',
+    modulos: 8, semanas: '~4 sem', minutos: '10 min',
+    color: '#4B1D66'
+  }
+};
+
+function getRuta(puntaje) {
+  if (puntaje >= 10) return rutas.alta;
+  if (puntaje >= 5)  return rutas.media;
+  return rutas.baja;
+}
+
+function renderDiag() {
+  const p = preguntas[diagStep];
+  document.getElementById('diag-cat').textContent = p.cat;
+  document.getElementById('diag-q').textContent = p.q;
+  document.getElementById('diag-counter-header').textContent = `Pregunta ${diagStep+1} de ${preguntas.length}`;
+  document.getElementById('diag-bar').style.width = `${((diagStep+1)/preguntas.length)*100}%`;
+  const container = document.getElementById('diag-opts');
+  container.innerHTML = p.opts.map(o =>
+    `<button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> ${o}</button>`
+  ).join('');
+  const btn = document.getElementById('diag-next-btn');
+  btn.textContent = diagStep < preguntas.length - 1 ? 'Siguiente →' : 'Ver mi ruta recomendada →';
+}
+
+function selectAnswer(el) {
+  document.querySelectorAll('#diag-opts .answer-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function nextDiag() {
+  const opts = document.querySelectorAll('#diag-opts .answer-opt');
+  const selected = document.querySelector('#diag-opts .answer-opt.selected');
+  
+  // si no seleccionó nada, seleccionar la primera automáticamente
+  if (!selected) { opts[0].click(); return; }
+
+  // sumar puntaje según índice de respuesta seleccionada
+  const idx = Array.from(opts).indexOf(selected);
+  diagPuntaje += preguntas[diagStep].pesos[idx];
+
+  if (diagStep < preguntas.length - 1) {
+    diagStep++;
+    renderDiag();
+  } else {
+    // calcular ruta y mostrar resultado
+    const ruta = getRuta(diagPuntaje);
+    mostrarRutaResultado(ruta);
+    // resetear para próxima vez
+    diagStep = 0;
+    diagPuntaje = 0;
+    go('s-ruta-resultado');
+  }
+}
+
+function mostrarRutaResultado(ruta) {
+  document.getElementById('res-nombre').textContent = ruta.nombre;
+  document.getElementById('res-desc').textContent = ruta.desc;
+  document.getElementById('res-modulos').textContent = ruta.modulos;
+  document.getElementById('res-semanas').textContent = ruta.semanas;
+  document.getElementById('res-minutos').textContent = ruta.minutos;
+  document.getElementById('res-card').style.background = ruta.color;
+}
+
+// ── INICIO: loading → welcome ──
+setTimeout(() => go('s-welcome'), 1800);
+</script>
+</body>
+</html>
