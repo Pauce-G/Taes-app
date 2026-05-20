@@ -848,32 +848,114 @@ textarea.input {
 .mi-text .mit { font-size: 16px; font-weight: 700; color: #fff; }
 .mi-text .mis { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 2px; }
 
-.mentoras-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+.mentoras-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
 
+/* tarjeta expandible */
 .mentora-card {
   background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all .25s;
+  cursor: pointer;
+}
+.mentora-card:hover { border-color: var(--purple); box-shadow: 0 4px 18px rgba(75,29,102,0.12); }
+.mentora-card.open  { border-color: var(--purple); box-shadow: 0 4px 24px rgba(75,29,102,0.15); }
+
+/* cabecera siempre visible */
+.mc-header {
   display: flex;
   gap: 14px;
-  align-items: flex-start;
-  transition: all .2s;
+  align-items: center;
+  padding: 14px 16px;
 }
-
-.mentora-card:hover { border-color: var(--purple); box-shadow: 0 2px 12px rgba(75,29,102,0.1); }
-
-.mentora-av {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 800; color: #fff;
+.mc-foto {
+  width: 58px; height: 58px;
+  border-radius: 14px;
   flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 900; color: #fff;
+  overflow: hidden;
+}
+.mc-foto img { width:100%; height:100%; object-fit:cover; }
+.mc-info { flex: 1; min-width: 0; }
+.mc-badge { font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; color: var(--magenta); margin-bottom: 2px; }
+.mc-name  { font-size: 15px; font-weight: 800; color: var(--purple); line-height: 1.2; }
+.mc-esp   { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mc-arrow { font-size: 12px; color: var(--muted); transition: transform .25s; flex-shrink: 0; padding: 4px; }
+.mentora-card.open .mc-arrow { transform: rotate(180deg); color: var(--purple); }
+
+/* detalle oculto por defecto */
+.mc-detail { display: none; flex-direction: column; border-top: 1px solid var(--border); }
+.mentora-card.open .mc-detail { display: flex; }
+
+/* franja con cita */
+.mc-quote {
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.mc-quote::before {
+  content: '\201C';
+  position: absolute; top: -8px; left: 12px;
+  font-size: 72px; color: rgba(255,255,255,0.12);
+  font-family: Georgia, serif; line-height: 1;
+  pointer-events: none;
+}
+.mc-quote p { font-size: 12px; color: rgba(255,255,255,0.88); line-height: 1.65; font-style: italic; position: relative; z-index:1; }
+
+/* especialidad tag */
+.mc-spec {
+  padding: 10px 18px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.mc-spec-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--muted); margin-bottom: 3px; }
+.mc-spec-val   { font-size: 13px; font-weight: 700; color: var(--text); }
+
+/* cuerpo: sobre mí + logros */
+.mc-body {
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 12px;
+}
+.mc-section-title {
+  font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
+  font-weight: 700; color: var(--muted); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 5px;
+}
+.mc-section-title span { font-size: 13px; }
+.mc-sobre-col { grid-column: 1; }
+.mc-logros-col { grid-column: 2; }
+.mc-sobre-text { font-size: 11.5px; color: var(--text); line-height: 1.65; }
+.mc-logro {
+  display: flex; gap: 6px; font-size: 11px;
+  color: var(--text); line-height: 1.5; margin-bottom: 6px;
+}
+.mc-logro::before { content: '●'; color: var(--orange); font-size: 7px; margin-top: 4px; flex-shrink: 0; }
+
+/* footer con botones */
+.mc-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.mc-linkedin {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: #0077B5; font-weight: 700;
+  padding: 8px 12px; border-radius: 10px;
+  border: 1.5px solid #0077B5; background: #fff;
+  cursor: pointer; text-decoration: none; flex-shrink: 0;
 }
 
-.mentora-info { flex: 1; }
-.mentora-name { font-size: 14px; font-weight: 700; }
-.mentora-esp { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.3; }
+.mentora-av { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; color:#fff; flex-shrink:0; }
+.mentora-info { flex:1; }
+.mentora-name { font-size:14px; font-weight:700; }
+.mentora-esp  { font-size:12px; color:var(--muted); margin-bottom:10px; line-height:1.3; }
 
 /* ── CAPITAL SEMILLA ── */
 .capital-hero {
@@ -1171,9 +1253,63 @@ textarea.input {
 
     <div class="welcome-cta">
       <p style="font-size:12px;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:4px">Elegí cómo querés ingresar</p>
-      <button class="btn btn-orange btn-full" onclick="go('s-registro')">✦ Entrar como emprendedora</button>
-      <button class="btn btn-ghost btn-full" >👤 Entrar como administrador</button>
+      <button class="btn btn-orange btn-full" onclick="go('s-choice')">✦ Entrar como emprendedora</button>
+      <button class="btn btn-ghost btn-full" onclick="window.location.href='administrador.html'">👤 Entrar como administrador</button>
       <div class="welcome-tagline">Creemos ideas. Transformamos realidades.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ¿TENÉS CUENTA? ── -->
+<div class="screen" id="s-choice">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-welcome')">←</button>
+      <div><div class="screen-header-title">Entrar como emprendedora</div></div>
+    </div>
+    <div class="form-screen" style="justify-content:center;gap:28px;padding-top:48px">
+      <div style="text-align:center;padding:0 8px">
+        <div class="form-title" style="text-align:center">¿Ya tenés cuenta en TAES?</div>
+        <div class="form-sub" style="text-align:center;margin-top:6px">Si ya te registraste antes, ingresá con tu nombre y número de teléfono.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="btn btn-orange btn-full" onclick="go('s-login')" style="padding:18px;font-size:15px"> Sí, ya tengo cuenta</button>
+        <button class="btn btn-purple btn-full" onclick="go('s-registro')" style="padding:18px;font-size:15px"> No, quiero crear mi cuenta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LOGIN ── -->
+<div class="screen" id="s-login">
+  <div class="mobile-shell" style="max-width:100%;margin:0">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('s-choice')">←</button>
+      <div>
+        <div class="screen-header-title">Ingresar</div>
+        <div class="screen-header-sub">Tu nombre y número de teléfono</div>
+      </div>
+    </div>
+    <div class="form-screen" style="gap:20px;padding-top:32px">
+      <div>
+        <div class="form-title">Bienvenida de nuevo 💜</div>
+        <div class="form-sub">Ingresá los datos con los que te registraste.</div>
+      </div>
+      <div class="field">
+        <label>¿Cómo te llamás?</label>
+        <input class="input" type="text" placeholder="Tu nombre completo" id="login-nombre">
+      </div>
+      <div class="field">
+        <label>Número de teléfono</label>
+        <input class="input" type="tel" placeholder="7XXXXXXX" id="login-tel">
+      </div>
+      <div id="login-error" style="display:none;background:rgba(177,0,122,0.08);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--magenta);font-weight:600;border-left:3px solid var(--magenta)">
+        ⚠️ No encontramos esa cuenta. Revisá tu nombre y número, o creá una cuenta nueva.
+      </div>
+    </div>
+    <div class="form-footer" style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-orange btn-full" onclick="intentarLogin()">Ingresar →</button>
+      <button class="btn btn-outline btn-full btn-sm" onclick="go('s-registro')">Crear cuenta nueva</button>
     </div>
   </div>
 </div>
@@ -1201,7 +1337,7 @@ textarea.input {
 <div class="screen" id="s-registro">
   <div class="mobile-shell" style="max-width:100%;margin:0">
     <div class="screen-header">
-      <button class="back-btn" onclick="go('s-welcome')">←</button>
+      <button class="back-btn" onclick="go('s-choice')">←</button>
       <div>
         <div class="screen-header-title">Crear cuenta</div>
         <div class="screen-header-sub">Paso 1 de 2 · No te preocupes, podés pausar</div>
@@ -1217,12 +1353,12 @@ textarea.input {
 
       <div class="field">
         <label>¿Cómo te llamás?</label>
-        <input class="input" type="text" placeholder="Tu nombre" id="reg-nombre" value="María Quispe">
+        <input class="input" type="text" placeholder="Tu nombre" id="reg-nombre">
       </div>
 
       <div class="field">
         <label>Número de teléfono</label>
-        <input class="input" type="tel" placeholder="7XXXXXXX" id="reg-tel" value="70123456">
+        <input class="input" type="tel" placeholder="7XXXXXXX" id="reg-tel">
         <span class="input-hint">Lo usamos para recordatorios y soporte</span>
       </div>
 
@@ -1239,7 +1375,7 @@ textarea.input {
     </div>
 
     <div class="form-footer">
-      <button class="btn btn-orange btn-full" onclick="go('s-diagnostico')">Continuar →</button>
+      <button class="btn btn-orange btn-full" onclick="irAlDiagnostico()">Continuar →</button>
     </div>
   </div>
 </div>
@@ -1278,7 +1414,7 @@ textarea.input {
 
       <div class="field">
         <label>¿Ya tenés un nombre para tu emprendimiento?</label>
-        <input class="input" type="text" placeholder="Opcional" id="reg-negocio" value="Pan casero Sara Pacha">
+        <input class="input" type="text" placeholder="Opcional" id="reg-negocio">
       </div>
 
       <div class="field">
@@ -1355,7 +1491,7 @@ textarea.input {
       </div>
 
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="btn btn-orange btn-full" onclick="go('s-app'); setTab('tab-inicio')">Empezar esta ruta →</button>
+        <button class="btn btn-orange btn-full" onclick="iniciarRutaDiagnosticada()">Empezar esta ruta →</button>
         <button class="btn btn-outline btn-full" onclick="go('s-app'); setTab('tab-rutas')">Ver otras rutas</button>
       </div>
     </div>
@@ -1369,7 +1505,13 @@ textarea.input {
     <div class="app-topbar">
       <span style="font-size:18px;color:var(--muted);cursor:pointer">☰</span>
       <span class="app-logo">taes</span>
-      <div style="width:32px;height:32px;border-radius:50%;background:var(--magenta);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;cursor:pointer" onclick="setTab('tab-perfil')">MQ</div>
+    <div style="position:relative" id="avatar-wrap">
+    <div id="avatar-topbar" style="width:32px;height:32px;border-radius:50%;background:var(--magenta);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;cursor:pointer" onclick="toggleAvatarMenu()">MQ</div>
+    <div id="avatar-menu" style="display:none;position:absolute;right:0;top:40px;background:#fff;border-radius:12px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.12);min-width:160px;z-index:100;overflow:hidden">
+        <div onclick="setTab('tab-perfil');toggleAvatarMenu()" style="padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:1px solid var(--border)">👤 Mi perfil</div>
+        <div onclick="cerrarSesion()" style="padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;color:#C00">🚪 Cerrar sesión</div>
+    </div>
+    </div>
     </div>
 
     <div class="app-content">
@@ -1649,38 +1791,159 @@ textarea.input {
         </div>
 
         <div class="mentoras-list">
-          <div class="mentora-card">
-            <div class="mentora-av" style="background:var(--purple)">AG</div>
-            <div class="mentora-info">
-              <div class="mentora-name">Lic. Ana González</div>
-              <div class="mentora-esp">Costos y finanzas para emprendimientos pequeños</div>
-              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+
+          <!-- MENTORA 1 -->
+          <div class="mentora-card" onclick="toggleMentora(this)">
+            <div class="mc-header">
+              <div class="mc-foto" style="background:var(--purple)">AG</div>
+              <div class="mc-info">
+                <div class="mc-badge">● MENTORA</div>
+                <div class="mc-name">Lic. Ana González</div>
+                <div class="mc-esp">Costos y finanzas · Emprendimientos pequeños</div>
+              </div>
+              <div class="mc-arrow">▼</div>
+            </div>
+            <div class="mc-detail">
+              <div class="mc-quote" style="background:var(--purple)">
+                <p>Las finanzas no son el enemigo — son la brújula. Cuando sabés cuánto ganás y cuánto gastás, podés tomar decisiones con seguridad y crecer de verdad.</p>
+              </div>
+              <div class="mc-spec">
+                <div class="mc-spec-label">Especialidad</div>
+                <div class="mc-spec-val">Costos, precios y planificación financiera</div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-sobre-col">
+                  <div class="mc-section-title"><span>👤</span> Sobre mí</div>
+                  <div class="mc-sobre-text">Contadora pública con 10 años acompañando emprendedoras. Especializada en estructuración de costos y precios simples para negocios pequeños en Bolivia.</div>
+                </div>
+                <div class="mc-logros-col">
+                  <div class="mc-section-title"><span>⭐</span> Logros destacados</div>
+                  <div class="mc-logro">+200 emprendedoras asesoradas en Bolivia</div>
+                  <div class="mc-logro">Certificada en Finanzas para PyMEs — SBEF</div>
+                  <div class="mc-logro">Docente universitaria de contabilidad</div>
+                </div>
+              </div>
+              <div class="mc-footer">
+                <button class="btn btn-purple" style="flex:1;font-size:12px;padding:10px 14px" onclick="event.stopPropagation()">Solicitar mentoría</button>
+                <a class="mc-linkedin" href="#" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+              </div>
             </div>
           </div>
-          <div class="mentora-card">
-            <div class="mentora-av" style="background:var(--magenta)">SM</div>
-            <div class="mentora-info">
-              <div class="mentora-name">Lic. Sofía Mamani</div>
-              <div class="mentora-esp">Marketing digital para WhatsApp y redes sociales</div>
-              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+
+          <!-- MENTORA 2 -->
+          <div class="mentora-card" onclick="toggleMentora(this)">
+            <div class="mc-header">
+              <div class="mc-foto" style="background:var(--magenta)">SM</div>
+              <div class="mc-info">
+                <div class="mc-badge">● MENTORA</div>
+                <div class="mc-name">Lic. Sofía Mamani</div>
+                <div class="mc-esp">Marketing digital · WhatsApp y redes</div>
+              </div>
+              <div class="mc-arrow">▼</div>
+            </div>
+            <div class="mc-detail">
+              <div class="mc-quote" style="background:var(--magenta)">
+                <p>Vender no es molestar — es conectar. Con las herramientas digitales correctas, tu emprendimiento puede llegar a mucho más gente sin salir de casa.</p>
+              </div>
+              <div class="mc-spec">
+                <div class="mc-spec-label">Especialidad</div>
+                <div class="mc-spec-val">Marketing en WhatsApp Business, Facebook e Instagram</div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-sobre-col">
+                  <div class="mc-section-title"><span>👤</span> Sobre mí</div>
+                  <div class="mc-sobre-text">Especialista en ventas digitales para emprendedoras. Ayuda a crear presencia en WhatsApp Business, Facebook e Instagram de forma simple y efectiva.</div>
+                </div>
+                <div class="mc-logros-col">
+                  <div class="mc-section-title"><span>⭐</span> Logros destacados</div>
+                  <div class="mc-logro">Certificada en Google Digital Garage</div>
+                  <div class="mc-logro">+150 emprendedoras formadas en ventas digitales</div>
+                  <div class="mc-logro">Experiencia en Bolivia y Perú</div>
+                </div>
+              </div>
+              <div class="mc-footer">
+                <button class="btn btn-purple" style="flex:1;font-size:12px;padding:10px 14px" onclick="event.stopPropagation()">Solicitar mentoría</button>
+                <a class="mc-linkedin" href="#" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+              </div>
             </div>
           </div>
-          <div class="mentora-card">
-            <div class="mentora-av" style="background:var(--orange)">PL</div>
-            <div class="mentora-info">
-              <div class="mentora-name">Ing. Patricia López</div>
-              <div class="mentora-esp">Formalización y gestión productiva</div>
-              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+
+          <!-- MENTORA 3 -->
+          <div class="mentora-card" onclick="toggleMentora(this)">
+            <div class="mc-header">
+              <div class="mc-foto" style="background:var(--orange)">PL</div>
+              <div class="mc-info">
+                <div class="mc-badge">● MENTORA</div>
+                <div class="mc-name">Ing. Patricia López</div>
+                <div class="mc-esp">Formalización · Gestión productiva</div>
+              </div>
+              <div class="mc-arrow">▼</div>
+            </div>
+            <div class="mc-detail">
+              <div class="mc-quote" style="background:#7A3500">
+                <p>Formalizarte no es un gasto — es invertir en el futuro de tu negocio. Con el proceso correcto, tu emprendimiento accede a más clientes y más oportunidades.</p>
+              </div>
+              <div class="mc-spec">
+                <div class="mc-spec-label">Especialidad</div>
+                <div class="mc-spec-val">Registro, habilitación y gestión de producción</div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-sobre-col">
+                  <div class="mc-section-title"><span>👤</span> Sobre mí</div>
+                  <div class="mc-sobre-text">Ingeniera industrial con especialización en formalización de microempresas. Acompaña a emprendedoras en NIT, habilitación municipal y organización productiva.</div>
+                </div>
+                <div class="mc-logros-col">
+                  <div class="mc-section-title"><span>⭐</span> Logros destacados</div>
+                  <div class="mc-logro">+80 negocios formalizados en La Paz y Cbba</div>
+                  <div class="mc-logro">Consultora del programa PROMUJER</div>
+                  <div class="mc-logro">Experta en NIT y licencias municipales</div>
+                </div>
+              </div>
+              <div class="mc-footer">
+                <button class="btn btn-purple" style="flex:1;font-size:12px;padding:10px 14px" onclick="event.stopPropagation()">Solicitar mentoría</button>
+                <a class="mc-linkedin" href="#" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+              </div>
             </div>
           </div>
-          <div class="mentora-card">
-            <div class="mentora-av" style="background:var(--success)">VT</div>
-            <div class="mentora-info">
-              <div class="mentora-name">Lic. Verónica Tito</div>
-              <div class="mentora-esp">Acompañamiento emocional para emprender</div>
-              <button class="btn btn-purple btn-sm">Solicitar mentoría</button>
+
+          <!-- MENTORA 4 -->
+          <div class="mentora-card" onclick="toggleMentora(this)">
+            <div class="mc-header">
+              <div class="mc-foto" style="background:var(--success)">VT</div>
+              <div class="mc-info">
+                <div class="mc-badge">● MENTORA</div>
+                <div class="mc-name">Lic. Verónica Tito</div>
+                <div class="mc-esp">Acompañamiento emocional · Liderazgo</div>
+              </div>
+              <div class="mc-arrow">▼</div>
+            </div>
+            <div class="mc-detail">
+              <div class="mc-quote" style="background:#0D6B49">
+                <p>Emprender también es un trabajo interno. Cuando tu confianza está alineada con tu propósito, los obstáculos se vuelven parte del camino, no el fin.</p>
+              </div>
+              <div class="mc-spec">
+                <div class="mc-spec-label">Especialidad</div>
+                <div class="mc-spec-val">Coaching, confianza y gestión emocional</div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-sobre-col">
+                  <div class="mc-section-title"><span>👤</span> Sobre mí</div>
+                  <div class="mc-sobre-text">Psicóloga organizacional y coach de vida especializada en mujeres emprendedoras. Trabaja la confianza, el miedo al fracaso y la sostenibilidad emocional del negocio.</div>
+                </div>
+                <div class="mc-logros-col">
+                  <div class="mc-section-title"><span>⭐</span> Logros destacados</div>
+                  <div class="mc-logro">Certificada en Coaching ontológico — ICF</div>
+                  <div class="mc-logro">+300 sesiones con emprendedoras</div>
+                  <div class="mc-logro">Facilitadora de talleres de liderazgo femenino</div>
+                </div>
+              </div>
+              <div class="mc-footer">
+                <button class="btn btn-purple" style="flex:1;font-size:12px;padding:10px 14px" onclick="event.stopPropagation()">Solicitar mentoría</button>
+                <a class="mc-linkedin" href="#" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+              </div>
             </div>
           </div>
+
         </div>
 
         <div style="padding:0 20px 8px">
@@ -1910,6 +2173,15 @@ textarea.input {
 
 <script>
 // ── NAVEGACIÓN ──
+// ── MENTORAS EXPANDIBLES ──
+function toggleMentora(card) {
+  const isOpen = card.classList.contains('open');
+  // cerrar todas
+  document.querySelectorAll('.mentora-card.open').forEach(c => c.classList.remove('open'));
+  // abrir la tocada (si no estaba abierta)
+  if (!isOpen) card.classList.add('open');
+}
+
 function go(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(screenId).classList.add('active');
@@ -1931,66 +2203,271 @@ function setTab(tabId) {
 }
 
 // ── PILLS ──
-function togglePill(el) {
-  el.classList.toggle('selected');
+function togglePill(el) { el.classList.toggle('selected'); }
+
+// ════════════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════════════
+let usuarioActual = null;
+let rutaDiagnosticada = null;
+
+// Usuario demo con cuenta existente
+const usuariosRegistrados = [
+  {
+    nombre: 'María Quispe',
+    telefono: '70123456',
+    ruta: 'Quiero Emprender',
+    moduloActual: 3,
+    progresoModulo: 35,
+    negocio: 'Pan casero "Sara Pacha"'
+  }
+];
+
+// ════════════════════════════════════════
+// REGISTRO NUEVO: capturar nombre
+// ════════════════════════════════════════
+function irAlDiagnostico() {
+  const nombre = document.getElementById('reg-nombre').value.trim();
+  const tel    = document.getElementById('reg-tel').value.trim();
+  if (!nombre) {
+    document.getElementById('reg-nombre').style.borderColor = 'var(--magenta)';
+    document.getElementById('reg-nombre').focus();
+    return;
+  }
+  document.getElementById('reg-nombre').style.borderColor = '';
+  usuarioActual = { nombre, telefono: tel, ruta: null, moduloActual: 1, progresoModulo: 0, negocio: '' };
+  aplicarNombreEnApp(nombre);
+  go('s-diagnostico');
 }
 
-// ── DIAGNÓSTICO ──
+// ════════════════════════════════════════
+// LOGIN: verificar nombre + teléfono
+// ════════════════════════════════════════
+function intentarLogin() {
+
+  const err = document.getElementById('login-error');
+
+  // Siempre usar el usuario demo
+  const encontrado = usuariosRegistrados[0];
+
+  err.style.display = 'none';
+
+  usuarioActual = encontrado;
+
+  cargarSesionExistente(encontrado);
+}
+
+// ════════════════════════════════════════
+// CARGAR SESIÓN EXISTENTE (con progreso)
+// ════════════════════════════════════════
+function cargarSesionExistente(u) {
+  aplicarNombreEnApp(u.nombre);
+
+  const ruta = Object.values(rutas).find(function(r) { return r.nombre === u.ruta; }) || rutas.baja;
+  const lista  = modulosRuta[ruta.nombre] || [];
+  const nomMod = lista[(u.moduloActual || 1) - 1] || 'Módulo 1';
+  const total  = ruta.modulos;
+  const prog   = u.progresoModulo || 0;
+
+  // Dashboard
+  document.querySelector('.rm-name').textContent   = ruta.nombre;
+  document.querySelector('.rm-module').textContent = 'Módulo ' + u.moduloActual + ' de ' + total + ' · ' + nomMod;
+  document.querySelector('.mp-fill').style.width   = prog + '%';
+  document.querySelector('.mp-pct').textContent    = prog + '%';
+
+  // Pantalla módulo
+  document.querySelector('#s-modulo .screen-header-title').textContent = 'Módulo ' + u.moduloActual;
+  document.querySelector('#s-modulo .screen-header-sub').textContent   = ruta.nombre + ' · 10 min';
+  document.querySelector('#s-modulo .mod-cat').textContent   = 'Módulo ' + u.moduloActual;
+  document.querySelector('#s-modulo .mod-title').textContent = nomMod;
+
+  // Mi negocio
+  if (u.negocio) {
+    var neg = document.querySelector('.negocio-name');
+    if (neg) neg.textContent = u.negocio;
+  }
+
+  // Perfil y rutas
+  aplicarDatosEnPerfil(u, ruta, prog);
+  actualizarTabRutas(ruta.nombre, prog, total);
+
+  go('s-app');
+  setTab('tab-inicio');
+}
+
+// ════════════════════════════════════════
+// INICIAR RUTA (usuario nuevo, post-diagnóstico)
+// ════════════════════════════════════════
+function iniciarRutaDiagnosticada() {
+  var ruta = rutaDiagnosticada;
+  if (!ruta) { go('s-app'); setTab('tab-inicio'); return; }
+
+  var lista  = modulosRuta[ruta.nombre] || [];
+  var primer = lista[0] || 'Módulo 1';
+
+  // Dashboard
+  document.querySelector('.rm-name').textContent   = ruta.nombre;
+  document.querySelector('.rm-module').textContent = 'Módulo 1 de ' + ruta.modulos + ' · ' + primer;
+  document.querySelector('.mp-fill').style.width   = '0%';
+  document.querySelector('.mp-pct').textContent    = '0%';
+
+  // Módulo
+  document.querySelector('#s-modulo .screen-header-title').textContent = 'Módulo 1';
+  document.querySelector('#s-modulo .screen-header-sub').textContent   = ruta.nombre + ' · 10 min';
+  document.querySelector('#s-modulo .mod-cat').textContent   = 'Módulo 1';
+  document.querySelector('#s-modulo .mod-title').textContent = primer;
+
+  // Perfil
+  if (usuarioActual) {
+    usuarioActual.ruta = ruta.nombre;
+    aplicarDatosEnPerfil(usuarioActual, ruta, 0);
+  }
+
+  actualizarTabRutas(ruta.nombre, 0, ruta.modulos);
+
+  go('s-app');
+  setTab('tab-inicio');
+}
+
+// ════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════
+function getIniciales(nombre) {
+  var p = nombre.trim().split(' ');
+  return ((p[0] ? p[0][0] : '') + (p[1] ? p[1][0] : '')).toUpperCase();
+}
+
+function aplicarNombreEnApp(nombre) {
+  var primer = nombre.split(' ')[0];
+  var inic   = getIniciales(nombre);
+
+  // Saludo
+  var saludo = document.querySelector('.dash-greeting');
+  if (saludo) saludo.textContent = 'Hola, ' + primer + '.';
+
+  // Avatar topbar
+  var at = document.getElementById('avatar-topbar');
+  if (at) at.textContent = inic;
+
+  // Perfil
+  var pav  = document.querySelector('.perfil-av');
+  var pnam = document.querySelector('.perfil-name');
+  if (pav)  pav.textContent  = inic;
+  if (pnam) pnam.textContent = nombre;
+}
+
+function aplicarDatosEnPerfil(u, ruta, prog) {
+  var inic = getIniciales(u.nombre);
+  var pav  = document.querySelector('.perfil-av');
+  var pnam = document.querySelector('.perfil-name');
+  if (pav)  pav.textContent  = inic;
+  if (pnam) pnam.textContent = u.nombre;
+
+  // Avatar topbar
+  var at = document.getElementById('avatar-topbar');
+  if (at) at.textContent = inic;
+
+  // Saludo
+  var saludo = document.querySelector('.dash-greeting');
+  if (saludo) saludo.textContent = 'Hola, ' + u.nombre.split(' ')[0] + '.';
+
+  // Chip ruta en perfil
+  var chips = document.querySelectorAll('.perfil-chip');
+  if (chips[0]) chips[0].textContent = ruta.nombre;
+
+  // Stat progreso en perfil
+  var statsVals = document.querySelectorAll('.pstat .ps-val');
+  var statsSubs = document.querySelectorAll('.pstat .ps-sub');
+  if (statsVals[0]) statsVals[0].textContent = prog + '%';
+  if (statsSubs[0]) statsSubs[0].textContent = ruta.nombre;
+
+  // Datos personales
+  var pdVals = document.querySelectorAll('.pd-val');
+  if (pdVals[0] && u.telefono) pdVals[0].textContent = '+591 ' + u.telefono;
+  if (pdVals[2]) pdVals[2].textContent = ruta.nombre;
+}
+
+function actualizarTabRutas(nombreRuta, prog, total) {
+  var items   = document.querySelectorAll('.ruta-item');
+  var nombres = ['Quiero Emprender', 'Ya Tengo un Negocio', 'Quiero Crecer'];
+  items.forEach(function(item, i) {
+    var esActiva = nombres[i] === nombreRuta;
+    item.classList.toggle('active-ruta', esActiva);
+    var badge = item.querySelector('.ri-badge');
+    var bar   = item.querySelector('.ri-bar-fill');
+    var pct   = item.querySelector('.ri-pct');
+    var btn   = item.querySelector('button');
+    if (esActiva) {
+      badge.className   = 'ri-badge badge-progreso';
+      badge.textContent = 'En progreso';
+      if (bar) { bar.style.width = prog + '%'; bar.style.background = 'var(--orange)'; }
+      if (pct) pct.textContent = prog + '%';
+      if (btn) {
+        btn.className   = 'btn btn-orange btn-full btn-sm';
+        btn.textContent = 'Continuar →';
+        btn.onclick = function() { go('s-modulo'); };
+      }
+    } else if (nombres[i] !== 'Quiero Crecer') {
+      badge.className   = 'ri-badge badge-disponible';
+      badge.textContent = 'Disponible';
+      if (btn) {
+        btn.className   = 'btn btn-outline btn-full btn-sm';
+        btn.textContent = 'Explorar ruta';
+        btn.onclick = null;
+      }
+    }
+  });
+}
+function toggleAvatarMenu() {
+  var m = document.getElementById('avatar-menu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+
+function cerrarSesion() {
+  usuarioActual = null;
+  rutaDiagnosticada = null;
+  document.getElementById('avatar-menu').style.display = 'none';
+  var ln = document.getElementById('login-nombre');
+  var lt = document.getElementById('login-tel');
+  if (ln) ln.value = '';
+  if (lt) lt.value = '';
+  go('s-welcome');
+}
+
+// ════════════════════════════════════════
+// DIAGNÓSTICO
+// ════════════════════════════════════════
 const preguntas = [
-  { 
-    cat: 'TU MOMENTO', 
-    q: '¿Ya vendés algún producto o servicio?', 
-    opts: ['Sí, ya vendo regularmente', 'Sí, pero muy poco todavía', 'No, tengo la idea pero no he empezado', 'Aún no tengo claro qué quiero hacer'],
-    pesos: [3, 2, 0, 0]  // 3=Quiero Crecer, 2=Ya Tengo Negocio, 0=Quiero Emprender
-  },
-  { 
-    cat: 'TU IDEA', 
-    q: '¿Tenés claro qué vas a vender?', 
-    opts: ['Sí, muy claro y ya vendo bien', 'Sí, pero quiero mejorar', 'Más o menos, tengo algunas ideas', 'Todavía no lo sé'],
-    pesos: [3, 2, 1, 0]
-  },
-  { 
-    cat: 'TUS CLIENTES', 
-    q: '¿Sabés a quién le querés vender?', 
-    opts: ['Sí, tengo clientas fijas', 'Tengo una idea general', 'No lo he pensado mucho', 'Quiero venderle a todos'] ,
-    pesos: [3, 2, 0, 0]
-  },
-  { 
-    cat: 'TU NEGOCIO', 
-    q: '¿Manejás tus costos y precios?', 
-    opts: ['Sí, llevo mis cuentas ordenadas', 'A veces, pero me cuesta', 'Casi nunca', 'No sé cómo hacerlo'],
-    pesos: [3, 2, 1, 0]
-  },
-  { 
-    cat: 'TU META', 
-    q: '¿Qué querés lograr con TAES?', 
-    opts: ['Expandirme o entrar a nuevos mercados', 'Ordenar y mejorar lo que ya tengo', 'Aprender a emprender desde cero', 'Entender si mi idea es viable'],
-    pesos: [3, 2, 0, 0]
-  },
+  { cat: 'TU MOMENTO', q: '¿Ya vendés algún producto o servicio?',
+    opts: ['Sí, ya vendo regularmente','Sí, pero muy poco todavía','No, tengo la idea pero no he empezado','Aún no tengo claro qué quiero hacer'],
+    pesos: [3,2,0,0] },
+  { cat: 'TU IDEA', q: '¿Tenés claro qué vas a vender?',
+    opts: ['Sí, muy claro y ya vendo bien','Sí, pero quiero mejorar','Más o menos, tengo algunas ideas','Todavía no lo sé'],
+    pesos: [3,2,1,0] },
+  { cat: 'TUS CLIENTES', q: '¿Sabés a quién le querés vender?',
+    opts: ['Sí, tengo clientas fijas','Tengo una idea general','No lo he pensado mucho','Quiero venderle a todos'],
+    pesos: [3,2,0,0] },
+  { cat: 'TU NEGOCIO', q: '¿Manejás tus costos y precios?',
+    opts: ['Sí, llevo mis cuentas ordenadas','A veces, pero me cuesta','Casi nunca','No sé cómo hacerlo'],
+    pesos: [3,2,1,0] },
+  { cat: 'TU META', q: '¿Qué querés lograr con TAES?',
+    opts: ['Expandirme o entrar a nuevos mercados','Ordenar y mejorar lo que ya tengo','Aprender a emprender desde cero','Entender si mi idea es viable'],
+    pesos: [3,2,0,0] },
 ];
 
 let diagStep = 0;
 let diagPuntaje = 0;
 
 const rutas = {
-  alta: {
-    nombre: 'Quiero Crecer',
-    desc: 'Ya tenés experiencia vendiendo. Te ayudaremos a expandirte, entrar a nuevos mercados y prepararte para nuevas oportunidades.',
-    modulos: 12, semanas: '~6 sem', minutos: '15 min',
-    color: '#FF8A00'
-  },
-  media: {
-    nombre: 'Ya Tengo un Negocio',
-    desc: 'Ya empezaste pero querés mejorar. Te ayudaremos a ordenar costos, precios y canales de venta con más seguridad.',
-    modulos: 10, semanas: '~5 sem', minutos: '10 min',
-    color: '#B1007A'
-  },
-  baja: {
-    nombre: 'Quiero Emprender',
-    desc: 'Por lo que nos contaste, te ayudaremos a ordenar tu idea, entender a quién querés venderle y dar tus primeros pasos con más seguridad.',
-    modulos: 8, semanas: '~4 sem', minutos: '10 min',
-    color: '#4B1D66'
-  }
+  alta:  { nombre: 'Quiero Crecer',       desc: 'Ya tenés experiencia vendiendo. Te ayudaremos a expandirte, entrar a nuevos mercados y prepararte para nuevas oportunidades.', modulos: 12, semanas: '~6 sem', minutos: '15 min', color: '#FF8A00' },
+  media: { nombre: 'Ya Tengo un Negocio', desc: 'Ya empezaste pero querés mejorar. Te ayudaremos a ordenar costos, precios y canales de venta con más seguridad.',              modulos: 10, semanas: '~5 sem', minutos: '10 min', color: '#B1007A' },
+  baja:  { nombre: 'Quiero Emprender',    desc: 'Por lo que nos contaste, te ayudaremos a ordenar tu idea, entender a quién querés venderle y dar tus primeros pasos con más seguridad.', modulos: 8, semanas: '~4 sem', minutos: '10 min', color: '#4B1D66' }
+};
+
+const modulosRuta = {
+  'Quiero Emprender':    ['Conocé tu idea de negocio','Entendé tu mercado','Definí a tu cliente ideal','Armá tu propuesta de valor','Calculá tus costos','Ponele precio a tu producto','Elegí cómo vender','Tu plan de acción'],
+  'Ya Tengo un Negocio': ['Revisá tu modelo actual','Ordená tus costos reales','Mejorá tus precios','Conocé mejor a tus clientes','Canales de venta efectivos','Comunicación y marca personal','Finanzas básicas del negocio','Crecimiento sostenible','Formalización paso a paso','Tu plan de mejora'],
+  'Quiero Crecer':       ['Diagnóstico de crecimiento','Nuevos mercados y segmentos','Estrategia de expansión','Escalá tu producción','Alianzas y redes','Marketing para crecer','Financiamiento y capital','Gestión del equipo','Indicadores de tu negocio','Postulación a fondos','Exportación y ferias','Tu plan de crecimiento']
 };
 
 function getRuta(puntaje) {
@@ -2000,60 +2477,50 @@ function getRuta(puntaje) {
 }
 
 function renderDiag() {
-  const p = preguntas[diagStep];
+  var p = preguntas[diagStep];
   document.getElementById('diag-cat').textContent = p.cat;
-  document.getElementById('diag-q').textContent = p.q;
-  document.getElementById('diag-counter-header').textContent = `Pregunta ${diagStep+1} de ${preguntas.length}`;
-  document.getElementById('diag-bar').style.width = `${((diagStep+1)/preguntas.length)*100}%`;
-  const container = document.getElementById('diag-opts');
-  container.innerHTML = p.opts.map(o =>
-    `<button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> ${o}</button>`
-  ).join('');
-  const btn = document.getElementById('diag-next-btn');
-  btn.textContent = diagStep < preguntas.length - 1 ? 'Siguiente →' : 'Ver mi ruta recomendada →';
+  document.getElementById('diag-q').textContent   = p.q;
+  document.getElementById('diag-counter-header').textContent = 'Pregunta ' + (diagStep+1) + ' de ' + preguntas.length;
+  document.getElementById('diag-bar').style.width = (((diagStep+1)/preguntas.length)*100) + '%';
+  document.getElementById('diag-opts').innerHTML  = p.opts.map(function(o) {
+    return '<button class="answer-opt" onclick="selectAnswer(this)"><div class="opt-radio"></div> ' + o + '</button>';
+  }).join('');
+  document.getElementById('diag-next-btn').textContent = diagStep < preguntas.length - 1 ? 'Siguiente →' : 'Ver mi ruta recomendada →';
 }
 
 function selectAnswer(el) {
-  document.querySelectorAll('#diag-opts .answer-opt').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('#diag-opts .answer-opt').forEach(function(o) { o.classList.remove('selected'); });
   el.classList.add('selected');
 }
 
 function nextDiag() {
-  const opts = document.querySelectorAll('#diag-opts .answer-opt');
-  const selected = document.querySelector('#diag-opts .answer-opt.selected');
-  
-  // si no seleccionó nada, seleccionar la primera automáticamente
+  var opts     = document.querySelectorAll('#diag-opts .answer-opt');
+  var selected = document.querySelector('#diag-opts .answer-opt.selected');
   if (!selected) { opts[0].click(); return; }
-
-  // sumar puntaje según índice de respuesta seleccionada
-  const idx = Array.from(opts).indexOf(selected);
-  diagPuntaje += preguntas[diagStep].pesos[idx];
-
+  diagPuntaje += preguntas[diagStep].pesos[Array.from(opts).indexOf(selected)];
   if (diagStep < preguntas.length - 1) {
     diagStep++;
     renderDiag();
   } else {
-    // calcular ruta y mostrar resultado
-    const ruta = getRuta(diagPuntaje);
+    var ruta = getRuta(diagPuntaje);
+    rutaDiagnosticada = ruta;
     mostrarRutaResultado(ruta);
-    // resetear para próxima vez
-    diagStep = 0;
-    diagPuntaje = 0;
+    diagStep = 0; diagPuntaje = 0;
     go('s-ruta-resultado');
   }
 }
 
 function mostrarRutaResultado(ruta) {
-  document.getElementById('res-nombre').textContent = ruta.nombre;
-  document.getElementById('res-desc').textContent = ruta.desc;
-  document.getElementById('res-modulos').textContent = ruta.modulos;
-  document.getElementById('res-semanas').textContent = ruta.semanas;
-  document.getElementById('res-minutos').textContent = ruta.minutos;
+  document.getElementById('res-nombre').textContent    = ruta.nombre;
+  document.getElementById('res-desc').textContent      = ruta.desc;
+  document.getElementById('res-modulos').textContent   = ruta.modulos;
+  document.getElementById('res-semanas').textContent   = ruta.semanas;
+  document.getElementById('res-minutos').textContent   = ruta.minutos;
   document.getElementById('res-card').style.background = ruta.color;
 }
 
 // ── INICIO: loading → welcome ──
-setTimeout(() => go('s-welcome'), 1800);
+setTimeout(function() { go('s-welcome'); }, 1800);
 </script>
 </body>
 </html>
