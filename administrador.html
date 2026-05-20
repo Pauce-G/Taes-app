@@ -1264,7 +1264,7 @@
 
     <div class="sidebar-user">
       <div class="logout-menu">
-        <div class="logout-menu-item" onclick="doLogout()" >← Volver al inicio</div>
+        <div class="logout-menu-item" onclick="volverAlInicio()">← Volver al inicio</div>
         <div class="logout-menu-item" onclick="showPage('dashboard')">⚙️ Configuración</div>
         <div class="logout-menu-item danger" onclick="window.location.href='index.html'">🚪 Cerrar sesión</div>
       </div>
@@ -2258,6 +2258,12 @@ document.getElementById('login-screen').style.display = 'flex';
 document.getElementById('app-shell').style.display = 'none';
 
 /* ── LOGOUT ── */
+function volverAlInicio() {
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').style.display = 'none';
+  window.location.href = 'index.html';
+}
 function doLogout() {
   document.getElementById('login-email').value = '';
   document.getElementById('login-pass').value = '';
