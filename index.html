@@ -1287,25 +1287,23 @@ textarea.input {
       <button class="back-btn" onclick="go('s-choice')">←</button>
       <div>
         <div class="screen-header-title">Ingresar</div>
-        <div class="screen-header-sub">Tu nombre y número de teléfono</div>
+        <div class="screen-header-sub">Tu nombre de usuario y contraseña</div>
       </div>
     </div>
     <div class="form-screen" style="gap:20px;padding-top:32px">
       <div>
         <div class="form-title">Bienvenida de nuevo 💜</div>
-        <div class="form-sub">Ingresá los datos con los que te registraste.</div>
+        <div class="form-sub">Ingresá tu usuario y contraseña para entrar.</div>
       </div>
       <div class="field">
-        <label>¿Cómo te llamás?</label>
-        <input class="input" type="text" placeholder="Tu nombre completo" id="login-nombre">
+        <label>Nombre de usuario</label>
+        <input class="input" type="text" placeholder="Tu nombre de usuario" id="login-usuario" autocomplete="username">
       </div>
       <div class="field">
-        <label>Número de teléfono</label>
-        <input class="input" type="tel" placeholder="7XXXXXXX" id="login-tel">
+        <label>Contraseña</label>
+        <input class="input" type="password" placeholder="Mínimo 8 caracteres" id="login-contrasena" autocomplete="current-password">
       </div>
-      <div id="login-error" style="display:none;background:rgba(177,0,122,0.08);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--magenta);font-weight:600;border-left:3px solid var(--magenta)">
-        ⚠️ No encontramos esa cuenta. Revisá tu nombre y número, o creá una cuenta nueva.
-      </div>
+      <div id="login-error" style="display:none;background:rgba(177,0,122,0.08);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--magenta);font-weight:600;border-left:3px solid var(--magenta)"></div>
     </div>
     <div class="form-footer" style="display:flex;flex-direction:column;gap:8px">
       <button class="btn btn-orange btn-full" onclick="intentarLogin()">Ingresar →</button>
@@ -1418,14 +1416,19 @@ textarea.input {
       </div>
 
       <div class="field">
-        <label>Creá tu PIN de acceso (4 dígitos)</label>
-        <input class="input" type="password" placeholder="····" maxlength="4" id="reg-pin" style="letter-spacing:8px;text-align:center;font-size:20px">
-        <span class="input-hint">En vez de contraseña, usamos un PIN fácil de recordar</span>
+        <label>Creá tu contraseña</label>
+        <input class="input" type="password" placeholder="Mínimo 8 caracteres" id="reg-contrasena" autocomplete="new-password">
+        <span class="input-hint">Mínimo 8 caracteres. La usarás para ingresar.</span>
       </div>
+      <div class="field">
+        <label>Repetí tu contraseña</label>
+        <input class="input" type="password" placeholder="Repetí tu contraseña" id="reg-contrasena2" autocomplete="new-password">
+      </div>
+      <div id="reg2-error" style="display:none;background:rgba(177,0,122,0.08);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--magenta);font-weight:600;border-left:3px solid var(--magenta)"></div>
     </div>
 
     <div class="form-footer">
-      <button class="btn btn-orange btn-full" onclick="go('s-diagnostico')">Siguiente → Diagnóstico</button>
+      <button class="btn btn-orange btn-full" onclick="validarRegistro2()">Siguiente → Diagnóstico</button>
     </div>
   </div>
 </div>
@@ -2078,6 +2081,15 @@ textarea.input {
           <div class="pd-row"><span class="pd-lbl">Inscrita desde</span><span class="pd-val">12 Mar 2026</span></div>
         </div>
 
+        <!-- seguridad -->
+        <div class="perfil-data" style="margin-top:0">
+          <div class="pd-title">Seguridad</div>
+          <div class="pd-row" style="cursor:pointer" onclick="go('s-cambiar-pass')">
+            <span class="pd-lbl">🔒 Contraseña</span>
+            <span class="pd-val" style="color:var(--purple);font-weight:700">Cambiar contraseña →</span>
+          </div>
+        </div>
+
         <!-- logros -->
         <div class="logros-section" style="padding-top:0">
           <div style="font-size:14px;font-weight:700;margin-bottom:12px">Mis logros e insignias</div>
@@ -2241,20 +2253,40 @@ function irAlDiagnostico() {
 }
 
 // ════════════════════════════════════════
-// LOGIN: verificar nombre + teléfono
+// LOGIN: MVP — usuario + contraseña (mín. 8 caracteres)
 // ════════════════════════════════════════
 function intentarLogin() {
-
-  const err = document.getElementById('login-error');
-
-  // Siempre usar el usuario demo
-  const encontrado = usuariosRegistrados[0];
-
+  var usuario    = document.getElementById('login-usuario').value.trim();
+  var contrasena = document.getElementById('login-contrasena').value;
+  var err        = document.getElementById('login-error');
   err.style.display = 'none';
 
-  usuarioActual = encontrado;
+  if (!usuario) {
+    err.textContent = '⚠️ Ingresá tu nombre de usuario.';
+    err.style.display = 'block'; return;
+  }
+  if (!contrasena) {
+    err.textContent = '⚠️ Ingresá tu contraseña.';
+    err.style.display = 'block'; return;
+  }
+  if (contrasena.length < 8) {
+    err.textContent = '⚠️ La contraseña debe tener al menos 8 caracteres.';
+    err.style.display = 'block'; return;
+  }
 
-  cargarSesionExistente(encontrado);
+  // MVP: progreso demo con nombre de quien ingresó
+  var demo = usuariosRegistrados[0];
+  var nombreFormateado = usuario.charAt(0).toUpperCase() + usuario.slice(1).toLowerCase();
+  usuarioActual = {
+    nombre: nombreFormateado,
+    telefono: demo.telefono,
+    ruta: demo.ruta,
+    moduloActual: demo.moduloActual,
+    progresoModulo: demo.progresoModulo,
+    negocio: demo.negocio,
+    contrasena: contrasena
+  };
+  cargarSesionExistente(usuarioActual);
 }
 
 // ════════════════════════════════════════
@@ -2427,10 +2459,10 @@ function cerrarSesion() {
   usuarioActual = null;
   rutaDiagnosticada = null;
   document.getElementById('avatar-menu').style.display = 'none';
-  var ln = document.getElementById('login-nombre');
-  var lt = document.getElementById('login-tel');
-  if (ln) ln.value = '';
-  if (lt) lt.value = '';
+  var lu = document.getElementById('login-usuario');
+  var lc = document.getElementById('login-contrasena');
+  if (lu) lu.value = '';
+  if (lc) lc.value = '';
   go('s-welcome');
 }
 
